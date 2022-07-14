@@ -85,7 +85,7 @@ async def delete(bot, message):
 
     msg = await message.reply("Processing...⏳", quote=True)
 
-    for file_type in ("document", "video","photo", "audio"):
+    for file_type in ("document", "video", "audio"):
         media = getattr(reply, file_type, None)
         if media is not None:
             break
