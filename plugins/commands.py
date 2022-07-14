@@ -1,5 +1,7 @@
 import os
 import logging
+import requests
+import json
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -64,6 +66,16 @@ async def total(bot, message):
     except Exception as e:
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
+
+#Consulta do dólar 
+@Cliente.on_message(filters.command('dolar') & filters.user(ADMINS))
+async def dolar(bot, message):
+    request = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
+    dolar = json.loads(request.content)
+    msg = "Máxima : "+dolar['USDBRL']['high']+"\nMínima : "+dolar['USDBRL']['low']+"\nVariação : "+dolar['USDBRL']['varBid']+"\n"
+    await message.reply(msg)
+
+
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
