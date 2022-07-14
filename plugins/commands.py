@@ -1,7 +1,5 @@
 import os
 import logging
-import requests
-import json
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -14,12 +12,9 @@ logger = logging.getLogger(__name__)
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
-    request = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
-    dolar = json.loads(request.content)
-    msg = "Máxima : "+dolar['USDBRL']['high']+"\nMínima : "+dolar['USDBRL']['low']+"\nVariação : "+dolar['USDBRL']['varBid']+"\n"
     """Start command handler"""
     if len(message.command) > 1 and message.command[1] == 'subscribe':
-        await message.reply(INVITE_MSG+"\n"+msg)
+        await message.reply(INVITE_MSG)
     else:
         buttons = [[
             InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
@@ -69,6 +64,12 @@ async def total(bot, message):
     except Exception as e:
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
+
+#Consulta do dólar 
+@Cliente.on_message(filters.command('dolar') & filters.user(ADMINS))
+async def dolar(bot, message):
+    await message.reply("Que saber o dolar? Vai no google!")
+
 
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
