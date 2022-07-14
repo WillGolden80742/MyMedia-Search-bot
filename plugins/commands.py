@@ -56,16 +56,7 @@ async def channel_info(bot, message):
         os.remove(file)
 
 
-@Client.on_message(filters.command('total') & filters.user(ADMINS))
-async def total(bot, message):
-    """Show total files in database"""
-    msg = await message.reply("Processing...⏳", quote=True)
-    try:
-        total = await Media.count_documents()
-        await msg.edit(f'📁 Saved files: {total}')
-    except Exception as e:
-        logger.exception('Failed to check total files')
-        await msg.edit(f'Error: {e}')
+
 
 #Consulta do dólar 
 @Cliente.on_message(filters.command('dolar') & filters.user(ADMINS))
