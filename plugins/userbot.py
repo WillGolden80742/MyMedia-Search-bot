@@ -40,7 +40,7 @@ async def index_files(bot, message):
                                 await asyncio.sleep(e.x)
                                 message = await bot.get_messages(chat, user_message.id, replies=0)
 
-                            for file_type in ("document", "video", "audio"):
+                            for file_type in ("document", "video", "photo", "audio"):
                                 media = getattr(message, file_type, None)
                                 if media is not None:
                                     break
