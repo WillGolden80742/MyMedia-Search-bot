@@ -22,8 +22,6 @@ async def start(bot, message):
             buttons = [[
                 InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
                 InlineKeyboardButton('Go Inline', switch_inline_query=''),
-                InlineKeyboardButton("Search by name", callback_data="search_name"),
-                InlineKeyboardButton("Search by function", callback_data="search_function"),
             ]]
             reply_markup = InlineKeyboardMarkup(buttons)
             await message.reply(START_MSG, reply_markup=reply_markup)
