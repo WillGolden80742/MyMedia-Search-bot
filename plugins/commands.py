@@ -29,7 +29,7 @@ async def dolar(bot, message):
     try:
         import requests
         request = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
-        dolar = json.loads(request)
+        dolar = json.loads(request.content)
         msg = "Máxima : R$"+dolar['USDBRL']['high']+"\nMínima : R$"+dolar['USDBRL']['low']+"\nVariação : R$"+dolar['USDBRL']['varBid']+"\n"
         await message.reply(msg)
     except Exception as e:
