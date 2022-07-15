@@ -42,7 +42,7 @@ async def gnews(bot, message):
         news = json.loads(request.content)
         #iterate each item of json array    
         for item in news['articles']:
-            await message.reply(item['url'])
+            await message.reply(item['title']+"\n"+item['url'])
     except Exception as e:
         await message.reply(e)        
 
