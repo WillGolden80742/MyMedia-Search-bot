@@ -38,8 +38,6 @@ async def answer(bot, query):
     reply_markup = get_reply_markup(bot.username, query=text)
     files, next_offset = await get_search_results(text, file_type=file_type, max_results=10, offset=offset)
 
-
-
     for file in files:
         results.append(
             InlineQueryResultCachedDocument(
