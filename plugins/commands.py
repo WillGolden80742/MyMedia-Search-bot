@@ -6,7 +6,7 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG
+from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
@@ -34,6 +34,15 @@ async def dolar(bot, message):
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)
+
+@Client.on_message(filters.command('news'))
+async def news(bot, message):
+    try:
+        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
+        news = json.loads(request.content)
+        await message.reply(news)
+    except Exception as e:
+        await message.reply(e)        
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
