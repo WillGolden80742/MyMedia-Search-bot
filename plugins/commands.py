@@ -28,7 +28,7 @@ async def start(bot, message):
 async def dolar(bot, message):
     try:
         request = """{"USDBRL":{"code":"USD","codein":"BRL","name":"Dólar Americano/Real Brasileiro","high":"5.4243","low":"5.4231","varBid":"0.0006","pctChange":"0.01","bid":"5.4234","ask":"5.4244","timestamp":"1657846721","create_date":"2022-07-14 21:58:41"}}"""
-        dolar = json.loads(request.content)
+        dolar = json.loads(request)
         msg = "Máxima : "+dolar['USDBRL']['high']+"\nMínimo :"+dolar['USDBRL']['low']+"\nVariação : "+dolar['USDBRL']['varBid']+"\n"
         await message.reply(msg)
     except Exception as e:
