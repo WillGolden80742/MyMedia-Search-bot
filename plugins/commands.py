@@ -26,10 +26,13 @@ async def start(bot, message):
 
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
-    request = """{"USDBRL":{"code":"USD","codein":"BRL","name":"Dólar Americano/Real Brasileiro","high":"5.4243","low":"5.4231","varBid":"0.0006","pctChange":"0.01","bid":"5.4234","ask":"5.4244","timestamp":"1657846721","create_date":"2022-07-14 21:58:41"}}"""
-    dolar = json.loads(request.content)
-    msg = "Máxima : "+dolar['USDBRL']['high']+"\nMínimo :"+dolar['USDBRL']['low']+"\nVariação : "+dolar['USDBRL']['varBid']+"\n"
-    await message.reply(msg)
+    try:
+        request = """{"USDBRL":{"code":"USD","codein":"BRL","name":"Dólar Americano/Real Brasileiro","high":"5.4243","low":"5.4231","varBid":"0.0006","pctChange":"0.01","bid":"5.4234","ask":"5.4244","timestamp":"1657846721","create_date":"2022-07-14 21:58:41"}}"""
+        dolar = json.loads(request.content)
+        msg = "Máxima : "+dolar['USDBRL']['high']+"\nMínimo :"+dolar['USDBRL']['low']+"\nVariação : "+dolar['USDBRL']['varBid']+"\n"
+        await message.reply(msg)
+    except Exception as e:
+        await message.reply(e)
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
