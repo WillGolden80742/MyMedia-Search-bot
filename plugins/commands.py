@@ -18,14 +18,17 @@ async def start(bot, message):
     if len(message.command) > 1 and message.command[1] == 'subscribe':
         await message.reply(INVITE_MSG)
     else:
-        buttons = [[
-            InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
-            InlineKeyboardButton('Go Inline', switch_inline_query=''),
-            InlineKeyboardButton('1',message.reply("eu to maluco")),
-            InlineKeyboardButton('3',message.reply("eu to maluco")),
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply(START_MSG, reply_markup=reply_markup)
+        try:
+            buttons = [[
+                InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
+                InlineKeyboardButton('Go Inline', switch_inline_query=''),
+                InlineKeyboardButton('1',message.reply("eu to maluco")),
+                InlineKeyboardButton('3',message.reply("eu to maluco")),
+            ]]
+            reply_markup = InlineKeyboardMarkup(buttons)
+            await message.reply(START_MSG, reply_markup=reply_markup)
+        except Exception as e:
+            await message.reply(e)    
 
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
