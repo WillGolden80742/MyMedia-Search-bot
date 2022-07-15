@@ -35,15 +35,14 @@ async def dolar(bot, message):
     except Exception as e:
         await message.reply(e)
 
-@Client.on_message(filters.command('news'))
-async def news(bot, message):
+@Client.on_message(filters.command('gnews'))
+async def gnews(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        #iterate a json array
-        for i in range(0,9):
-            msg = news['articles'][i]['title']+"\n"+news['articles'][i]['description']+"\n"+news['articles'][i]['url']+"\n"
-            await message.reply(msg)
+        #iterate each item of json array    
+        for item in news['articles']:
+            await message.reply(item['url'])
     except Exception as e:
         await message.reply(e)        
 
