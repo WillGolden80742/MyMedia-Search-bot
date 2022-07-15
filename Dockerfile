@@ -1,6 +1,7 @@
 FROM python:3-slim-buster
 
 RUN pip install --upgrade pip
+RUN pip install requests
 
 ENV USER botx
 ENV HOME /home/$USER
