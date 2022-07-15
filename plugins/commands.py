@@ -1,6 +1,7 @@
 import os
 import logging
 import json
+import requests
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -27,7 +28,7 @@ async def start(bot, message):
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
     try:
-        request = """{"USDBRL":{"code":"USD","codein":"BRL","name":"Dólar Americano/Real Brasileiro","high":"5.4243","low":"5.4231","varBid":"0.0006","pctChange":"0.01","bid":"5.4234","ask":"5.4244","timestamp":"1657846721","create_date":"2022-07-14 21:58:41"}}"""
+        request = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
         dolar = json.loads(request)
         msg = "Máxima : "+dolar['USDBRL']['high']+"\nMínimo :"+dolar['USDBRL']['low']+"\nVariação : "+dolar['USDBRL']['varBid']+"\n"
         await message.reply(msg)
