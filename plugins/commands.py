@@ -24,7 +24,7 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 @Client.on_message(filters.command('dolar'))
-async def start(bot, message):
+async def dolar(bot, message):
     await message.reply("Dolar!")
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
