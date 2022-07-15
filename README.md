@@ -67,6 +67,8 @@ docker run -d \
 * `AUTH_CHANNEL`: Username or ID of channel. Without subscribing this channel users cannot use bot.
 * `START_MSG`: Welcome message for start command.
 * `INVITE_MSG`: Auth channel invitation message.
+   `NEWSAPI_ID`: Optional api to give dealy news (newsapi.org)
+
 * `USERBOT_STRING_SESSION`: User bot string session.
 ## Admin commands
 ```
