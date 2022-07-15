@@ -40,7 +40,7 @@ async def news(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        await message.reply(news['title'])
+        await message.reply(news['articles'][0])
     except Exception as e:
         await message.reply(e)        
 
