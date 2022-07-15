@@ -65,12 +65,6 @@ async def total(bot, message):
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
 
-#Consulta do dólar 
-@Cliente.on_message(filters.command('dolar') & filters.user(ADMINS))
-async def dolar(bot, message):
-    await message.reply("Que saber o dolar? Vai no google!")
-
-
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
