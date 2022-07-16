@@ -63,7 +63,7 @@ async def ptbr(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
     except Exception as e:
-        await message.reply("Selecione mensagem para traduzir, não é possível traduzir mensagens de outros bots")
+        await message.reply("Selecione mensagem para traduzir, não é possível traduzir mensagens de outros bots e ou com imagens contidas na mensagem.")
      
 
 @Client.on_message(filters.command('gnews'))
