@@ -53,49 +53,16 @@ async def advice(bot, message):
 
 
   
-#create @Client.on_message filtred by command 'twdown' what give me video of twitter by link contend in message replied
-@Client.on_message(filters.command('twdown'))
-async def twdown(bot, message):
+#create @Client.on_message filtred by command 'forward'' to forward message reply to the channel
+@Client.on_message(filters.command('forward'))
+async def forward(bot, message):
     try:
-        if message.reply_to_message:
-            if message.reply_to_message.text:
-                url = message.reply_to_message.text
-                if url.startswith("https://twitter.com/"):
-                    url = url.replace("https://twitter.com/", "")
-                    url = url.replace("/status/", "")
-                    url = "https://api.twitter.com/1.1/statuses/"+url+"/extended_entities.json"
-                    request = requests.get(url, headers={"Authorization": "Bearer "+BOT_TOKEN})
-                    data = json.loads(request.content)
-                    if data['extended_entities']['media']:
-                        for media in data['extended_entities']['media']:
-                            if media['type'] == "video":
-                                await message.reply_video(media['video_info']['variants'][0]['url'])
-                                break
-                    else:
-                        await message.reply("No video found")
-                else:
-                    await message.reply("Invalid link")
-            else:
-                await message.reply("Invalid link")
+        if message.reply_to_message is not None:
+            await message.forward_message(CHANNELS)
         else:
-            await message.reply("Reply to a tweet")
+            await message.reply("Please reply to a message to forward it to the channel")
     except Exception as e:
-        await message.reply(e)    
-            
-@Client.on_message(filters.command('ptbr'))
-async def ptbr(bot, message):
-    try:
-        msgToTranslate = "Sem mensagem para traduzir"
-        if message.reply_to_message.text:
-            msgToTranslate = message.reply_to_message.text
-        else:   
-            msgToTranslate = message.reply_to_message.caption
-        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
-        translate = json.loads(requestTranslate.content)
-        msg = translate['data']['translations'][0]['translatedText']
-        await message.reply(msg)  
-    except Exception as e:
-        await message.reply("Selecione mensagem para traduzir")
+        await message.reply(e)
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
