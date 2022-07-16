@@ -76,9 +76,10 @@ async def gnews(bot, message):
         #give the a random article of the news list
         msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
         if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', url=msg['url'])]]))
         else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
+            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', url=msg['url'])]]))
     except Exception as e:
         await message.reply(e)        
 
