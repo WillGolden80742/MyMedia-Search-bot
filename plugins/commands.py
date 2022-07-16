@@ -108,22 +108,23 @@ async def total(bot, message):
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
 
-#by command /high get the image if exists of replied message and highlights your edges and return the image as a file
-@Client.on_message(filters.command('high'))
-async def high(bot, message):
+#by command /addMsg get file and caption of message and save it to database mongodb
+@Client.on_message(filters.command('addMsg') & filters.user(ADMINS))
+async def addMsg(bot, message):
+    """Add message to database"""
+    msg = await message.reply("Processing...⏳", quote=True)
     try:
-        if message.reply_to_message:
-            #get image of replied message
-            file_id = message.reply_to_message.photo[-1].file_id
-            file_path = await unpack_new_file_id(bot, file_id)
-            #highlight edges
-            img = await Media.highlight_edges(file_path)
-            #send image as a file
-            await message.reply_photo(img)
+        file_id = message.reply_to_message.file_id
+        caption = message.reply_to_message.caption
+        if file_id:
+            file = await bot.download_file(file_id)
+            await Media.create(file_id=file_id, caption=caption)
+            await msg.edit(f'📁 Saved file: {file_id}')
         else:
-            await message.reply("Please reply to a photo")
+            await msg.edit("📁 Error: No file found")
     except Exception as e:
-        await message.reply(e)
+        logger.exception('Failed to add message')
+        await msg.edit(f'Error: {e}')
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
