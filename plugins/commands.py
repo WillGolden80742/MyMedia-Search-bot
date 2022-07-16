@@ -73,7 +73,7 @@ async def gnews(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        #give the a random article of the news list with inline keyboard 'outra notícia' under in this message what when the user click on it will send another news article update the owner message
+        #give the a random article of the news list with inline keyboard 'outra notícia' and if the user click om it, will update the article with the next one
         randomArticle = random.randint(0, len(news['articles'])-1)
         msg = news['articles'][randomArticle]['title']+"\n"+news['articles'][randomArticle]['description']+"\n"+news['articles'][randomArticle]['url']
         buttons = [[
@@ -83,6 +83,8 @@ async def gnews(bot, message):
         await message.reply(msg, reply_markup=reply_markup)
     except Exception as e:
         await message.reply(e)        
+
+
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
