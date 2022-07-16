@@ -38,6 +38,21 @@ async def dolar(bot, message):
     except Exception as e:
         await message.reply(e)
 
+@Client.on_message(filters.command('ptbr'))
+async def ptbr(bot, message):
+    try:
+        msgToTranslate = "Sem mensagem para traduzir"
+        if message.reply_to_message.text:
+            msgToTranslate = message.reply_to_message.text
+        else:   
+            msgToTranslate = message.reply_to_message.caption
+        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
+        translate = json.loads(requestTranslate.content)
+        msg = translate['data']['translations'][0]['translatedText']
+        await message.reply(msg)  
+    except Exception as e:
+        await message.reply("Selecione mensagem para traduzir")   
+
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
     try:
@@ -107,50 +122,6 @@ async def total(bot, message):
     except Exception as e:
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
-
-#by command /addMsg get message "document", "video", "audio" and his respective caption and add it to database mongoDB
-@Client.on_message(filters.command('addMsg') & filters.user(ADMINS))
-async def add_msg(bot, message):
-    """Add message to database"""
-    msg = await message.reply("Processing...⏳", quote=True)
-    try:
-        if message.reply_to_message:
-            if message.reply_to_message.document:
-                file_id = message.reply_to_message.document.file_id
-                file_name = message.reply_to_message.document.file_name
-                file_size = message.reply_to_message.document.file_size
-                file_ext = message.reply_to_message.document.file_name.split('.')[-1]
-                file_type = 'document'
-            elif message.reply_to_message.video:
-                file_id = message.reply_to_message.video.file_id
-                file_name = message.reply_to_message.video.file_name
-                file_size = message.reply_to_message.video.file_size
-                file_ext = message.reply_to_message.video.file_name.split('.')[-1]
-                file_type = 'video'
-            elif message.reply_to_message.audio:
-                file_id = message.reply_to_message.audio.file_id
-                file_name = message.reply_to_message.audio.file_name
-                file_size = message.reply_to_message.audio.file_size
-                file_ext = message.reply_to_message.audio.file_name.split('.')[-1]
-                file_type = 'audio'
-            else:
-                await msg.edit("Error: File type not supported")
-                return
-        else:
-            await msg.edit("Error: No file selected")
-            return
-        if message.text.split(' ', 1)[1]:
-            caption = message.text.split(' ', 1)[1]
-        else:
-            caption = None
-        await Media.create_one(file_id=file_id, file_name=file_name, file_size=file_size, file_ext=file_ext, file_type=file_type, caption=caption)
-        await msg
-        await message.reply("File added to database")
-    except Exception as e:
-        logger.exception('Failed to add file')
-        await msg.edit(f'Error: {e}')
-        
-
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
