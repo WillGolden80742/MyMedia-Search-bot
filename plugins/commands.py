@@ -54,13 +54,17 @@ async def advice(bot, message):
 @Client.on_message(filters.command('ptbr'))
 async def ptbr(bot, message):
     try:
-        msgToTranslate = message.reply_to_message.text
+        msgToTranslate = "Sem mensagem para traduzir"
+        if message.reply_to_message.text:
+            msgToTranslate = message.reply_to_message.text
+        else:   
+            msgToTranslate = message.reply_to_message.caption
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Selecione mensagem para traduzir, não é possível traduzir mensagens de outros bots e ou com imagens contidas na mensagem.")
+        await message.reply("Selecione mensagem para traduzir")
      
 
 @Client.on_message(filters.command('gnews'))
