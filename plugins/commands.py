@@ -75,12 +75,11 @@ async def gnews(bot, message):
         news = json.loads(request.content)
         #iterate each item of json array    
         for item in news['articles']:
-            #get file image from url and send as document with caption
-            #add if urlToImage is not null
-            if item['urlToImage'] is not None:
-                await message.reply_document(unpack_new_file_id(base64.b64encode(requests.get(item['urlToImage']).content).decode('utf-8')), caption=item['title'])
-            else:   
-                await message.reply(item['title']+"\n"+item['url'])
+            #get image of articles if exists and add title as caption if not exists send only title
+            if item['urlToImage']:
+                await message.reply_photo(item['urlToImage'], caption=item['title'])
+            else:
+                await message.reply(item['title'])
     except Exception as e:
         await message.reply(e)        
 
