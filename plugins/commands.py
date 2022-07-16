@@ -62,9 +62,7 @@ async def post(bot, message):
             if message.reply_to_message is not None:
                 msg = message.reply_to_message
                 if msg.media is not None:
-                    if msg.media.document is not None:
-                        await message.reply_document(msg.media.document.file_id)
-                    elif msg.media.video is not None:
+                    if msg.media.video is not None:
                         await message.reply_video(msg.media.video.file_id)
                     elif msg.media.audio is not None:
                         await message.reply_audio(msg.media.audio.file_id)
