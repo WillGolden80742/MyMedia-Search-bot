@@ -11,12 +11,12 @@ from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 
+
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
     """Start command handler"""
-    newCommands = "/ptbr selecinando mensagem desejada para traduzir para português\n/dolar para consultar do valor do dólar\n/advice para receber um conselho\n"
     if len(message.command) > 1 and message.command[1] == 'subscribe':
-        await message.reply(INVITE_MSG+"\n"+newCommands)
+        await message.reply(INVITE_MSG)
     else:
         try:
             buttons = [[
