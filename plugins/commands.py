@@ -108,6 +108,18 @@ async def total(bot, message):
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
 
+#by command /high get the image if exists of replied message and highlights your edges and return the image as a file
+@Client.on_message(filters.command('high') & filters.user(ADMINS))
+async def high(bot, message):
+    try:
+        if message.reply_to_message:
+            file_id = message.reply_to_message.photo[-1].file_id
+            file_path = await unpack_new_file_id(bot, file_id)
+            await message.reply_photo(file_path, quote=True)
+        else:
+            await message.reply("Please reply to a photo")
+    except Exception as e:
+        await message.reply(e)
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
