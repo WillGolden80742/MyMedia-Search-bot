@@ -69,24 +69,20 @@ async def advice(bot, message):
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
-    news = await message.reply("Wait ...", quote=True)
-    await news.edit_text(randNews(message))
+     randNews(message)
 
 async def randNews(message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        #give the a random article of the news list
         msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
         if msg['urlToImage']:
-            randNews = msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]])
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]]))
         else:
-            #randNews = "<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]])
-            randNews = ""
+            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
     except Exception as e:
-        randNews = await message.reply(e)  
-    return randNews    
+        randNews = await message.reply(e)    
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
