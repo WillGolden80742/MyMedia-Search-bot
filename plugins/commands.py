@@ -7,7 +7,7 @@ import random
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID, BOT_TOKEN
+from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
@@ -70,34 +70,20 @@ async def advice(bot, message):
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
     try:
-        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)
-        msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
-        else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
+        get_news(message)
     except Exception as e:
         await message.reply(e)    
 
-#create a handling function for the callback_query to update news of message
-@Client.on_callback_query(filters.callback_query('gnews'))
-async def gnews_callback(bot, callback_query):
-    try:
-        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)
-        msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
-        if msg['urlToImage']:
-            await callback_query.edit(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
-        else:
-            await callback_query.edit("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
-    except Exception as e:
-        await callback_query.reply(e)    
-
+async def get_news(message):
+    request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
+    news = json.loads(request.content)
+    msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
+    if msg['urlToImage']:
+        await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
+    else:
+        await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
