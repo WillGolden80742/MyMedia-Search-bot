@@ -61,7 +61,7 @@ async def ptbr(bot, message):
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
-        message.edit_message_text(message.chat.id, message.message_id, text=msg)
+        await message.edit_message_text(message.chat.id, message.message_id, text=msg)
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir, não é possível traduzir mensagens de outros bots e ou com imagens contidas na mensagem.")
      
