@@ -69,8 +69,8 @@ async def advice(bot, message):
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
-    gnews = await message.reply("Processing...⏳", quote=True)
-    await gnews.edit(randNews(message))
+    news = await message.reply("Wait ...", quote=True)
+    await news.edit_text(randNews(message))
 
 async def randNews(message):
     try:
@@ -79,12 +79,13 @@ async def randNews(message):
         #give the a random article of the news list
         msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
         if msg['urlToImage']:
-            randNews = message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]]))
+            randNews = msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]])
         else:
-            randNews = message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
+            #randNews = "<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]])
+            randNews = ""
     except Exception as e:
-        randNews = message.reply(e)  
+        randNews = await message.reply(e)  
     return randNews    
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
