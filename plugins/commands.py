@@ -66,20 +66,7 @@ async def advice(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
     except Exception as e:
-        await message.reply(e)               
-
-
-#by command 'msg' give me the id and message same message what I sent
-@Client.on_message(filters.command('msg'))
-async def msg(bot, message):
-    try:
-        if message.text:
-            msg = message.text
-        else:
-            msg = message.caption
-        await message.reply(msg)
-    except Exception as e:
-        await message.reply(e)       
+        await message.reply(e)                  
 
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
