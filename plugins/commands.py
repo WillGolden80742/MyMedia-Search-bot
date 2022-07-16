@@ -86,7 +86,7 @@ async def gnews(bot, message):
 @Client.on_message(filters.command('msg'))
 async def msg(bot, message):
     try:
-        if message.message.text:
+        if message.text:
             msg = message.text
         else:
             msg = message.caption
