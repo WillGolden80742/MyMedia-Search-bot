@@ -72,11 +72,9 @@ async def gnews(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        #iterate each item of json array   
-        file = unpack_new_file_id(item['https://lh3.googleusercontent.com//J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=rj-w300-h300-l95-c0xffffff']) 
+        #iterate each item of json array    
         for item in news['articles']:
-            await message.reply_document(file)
-            #await message.reply(item['title']+"\n"+item['url'])
+            await message.reply(item['title']+"\n"+item['url'])
     except Exception as e:
         await message.reply(e)        
 
