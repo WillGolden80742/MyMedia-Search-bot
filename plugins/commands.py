@@ -82,6 +82,23 @@ async def gnews(bot, message):
     except Exception as e:
         await message.reply(e)    
 
+#create a handling function for the callback_query to update news of message
+@Client.on_callback_query(filters.callback_query('gnews'))
+async def gnews_callback(bot, callback_query):
+    try:
+        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
+        news = json.loads(request.content)
+        msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
+        if msg['urlToImage']:
+            await callback_query.edit(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
+        else:
+            await callback_query.edit("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
+    except Exception as e:
+        await callback_query.reply(e)    
+
+
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
     """Send basic information of channel"""
