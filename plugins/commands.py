@@ -52,12 +52,11 @@ async def advice(bot, message):
         await message.reply(e)
 
 @Client.on_message(filters.command('translate'))
-async def advice(bot, message):
+async def translate(bot, message):
     try:
         request = requests.get("https://api.telegram.org/bot"+BOT_TOKEN+"/getUpdates")
         message = json.loads(request.content)
-        #The last text what was replied the bot
-        
+        msgToTranslate = message['result'][len(message['result'])-1]['message']['reply_to_message']['text']
         request = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(request.content)
         msg = translate['data']['translations'][0]['translatedText']
