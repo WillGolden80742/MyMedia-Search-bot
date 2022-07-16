@@ -41,7 +41,10 @@ async def dolar(bot, message):
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
     try:
-        request = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q=cheese&target=pt")
+        request = requests.get("https://api.adviceslip.com/advice")
+        advice = json.loads(request.content)
+        msgAdvice = advice['slip']['advice']
+        request = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgAdvice+"&target=pt")
         translate = json.loads(request.content)
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
