@@ -54,14 +54,11 @@ async def advice(bot, message):
 @Client.on_message(filters.command('ptbr'))
 async def ptbr(bot, message):
     try:
-        request = requests.get("https://api.telegram.org/bot"+BOT_TOKEN+"/getUpdates")
-        request = requests.get("https://api.telegram.org/bot"+BOT_TOKEN+"/getUpdates")
-        messageReplied = json.loads(request.content)
-        msgToTranslate = messageReplied['result'][len(messageReplied['result'])-1]['message']['reply_to_message']['text']
+        msgToTranslate = message.text.split(' ', 1)[1]
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
-        await message.edit_message_text(message.chat.id, message.message_id, text=msg)
+        await message.reply(msg)  
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir, não é possível traduzir mensagens de outros bots e ou com imagens contidas na mensagem.")
      
