@@ -1,4 +1,4 @@
-import os
+bimport os
 import logging
 import json
 import requests
@@ -74,11 +74,11 @@ async def gnews(bot, message):
         news = json.loads(request.content)
         #iterate each item of json array    
         for item in news['articles']:
-            #get image of articles if exists and add title as caption and url if not exists send only title and url
+            #get image of articles if exists and add title (bold) and description as caption and url if not exists send only title (bold) and description and url
             if item['urlToImage']:
-                await message.reply_photo(item['urlToImage'], caption="*bold*"+item['title']+"\n"+item['description']+"\n"+item['url'])
+                await message.reply_photo(item['urlToImage'], caption="<b>"+item['title']+"</b>"+"\n"+item['description']+"\n"+item['url'], parse_mode="HTML")
             else:
-                await message.reply("*bold*"+item['title']+"\n"+item['description']+"\n"+item['url'])
+                await message.reply("<b>"+item['title']+"</b>\n"+item['description']+"\n"+item['url'])
     except Exception as e:
         await message.reply(e)        
 
