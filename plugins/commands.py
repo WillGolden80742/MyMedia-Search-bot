@@ -73,18 +73,14 @@ async def gnews(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        #give the a random article of the news list
-        msg = news['articles'][random.randint(0, len(news['articles']))] 
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
-        else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
-        #add inline keyboard 'outra notícia' under in this message what when the user click on it will send another news article update the owner message
+        #give the a random article of the news list with inline keyboard 'outra notícia' under in this message what when the user click on it will send another news article update the owner message
+        randomArticle = random.randint(0, len(news['articles'])-1)
+        msg = news['articles'][randomArticle]['title']+"\n"+news['articles'][randomArticle]['description']+"\n"+news['articles'][randomArticle]['url']
         buttons = [[
             InlineKeyboardButton('Outra notícia', callback_data='gnews')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_text("", reply_markup=reply_markup)
+        await message.reply(msg, reply_markup=reply_markup)
     except Exception as e:
         await message.reply(e)        
 
