@@ -74,12 +74,33 @@ async def gnews(bot, message):
         news = json.loads(request.content)
         msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
         if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]]))
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
+            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
     except Exception as e:
         await message.reply(e)    
+
+#by command /randNumber the bot will generate a random number between 1 and 100 and send it to the user, in the same message has the inline keyboard with the button to generate a new number
+@Client.on_message(filters.command('randNumber'))
+async def randNumber(bot, message):
+    try:
+        randNumber = random.randint(1,100)
+        buttons = [[
+            InlineKeyboardButton('Generate a new number', callback_data='randNumber'),
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await message.reply_text(randNumber, reply_markup=reply_markup)
+    except Exception as e:
+        await message.reply(e)
+
+#if the user click on the button to generate a new number, the bot will update message with a new number 
+@Client.on_callback_query(filters.callback_query('randNumber'))
+async def randNumber(bot, callback_query):
+    try:
+        randNumber = random.randint(1,100)
+        await callback_query.message.edit_text(randNumber)
+    except Exception as e:
+        await message.reply(e)
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
