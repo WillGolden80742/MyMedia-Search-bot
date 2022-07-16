@@ -73,18 +73,14 @@ async def gnews(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
-        #give the a random article of the news list with inline keyboard 'outra notícia' and if the user click om it, will update the article with the next one
-        randomArticle = random.randint(0, len(news['articles'])-1w)
-        msg = news['articles'][randomArticle]['title']+"\n"+news['articles'][randomArticle]['description']+"\n"+news['articles'][randomArticle]['url']
-        buttons = [[
-            InlineKeyboardButton('Outra notícia', callback_data='gnews')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply(msg, reply_markup=reply_markup)
+        #give the a random article of the news list
+        msg = news['articles'][random.randint(0, len(news['articles']))] 
+        if msg['urlToImage']:
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
+        else:
+            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
     except Exception as e:
         await message.reply(e)        
-
-
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
