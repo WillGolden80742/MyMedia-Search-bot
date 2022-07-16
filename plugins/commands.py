@@ -51,22 +51,27 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)
 
-
-#by comand 'post' to get the content of the message replied and convert it to a telegraph page and return the url
-@Client.on_message(filters.command('post'))
-async def post(bot, message):
+#by command weather and city name or by location coordinates give the weather
+@Client.on_message(filters.command('weather'))
+async def weather(bot, message):
     try:
-        if message.reply_to_message:
-            msg = message.reply_to_message.text
-            request = requests.post("https://api.telegra.ph/createPage", data={'title': msg, 'content': msg})
-            url = json.loads(request.content)['url']
-            await message.reply(url)
+        if len(message.command) > 1:
+            city = message.command[1]
+            request = requests.get("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+BOT_TOKEN)
+            weather = json.loads(request.content)
+            msg = "Temperatura : "+str(weather['main']['temp'])+"°C\n"
+            msg += "Temperatura máxima : "+str(weather['main']['temp_max'])+"°C\n"
+            msg += "Temperatura mínima : "+str(weather['main']['temp_min'])+"°C\n"
+            msg += "Humidade : "+str(weather['main']['humidity'])+"%\n"
+            msg += "Pressão : "+str(weather['main']['pressure'])+"hPa\n"
+            msg += "Velocidade do vento : "+str(weather['wind']['speed'])+"m/s\n"
+            msg += "Direção do vento : "+str(weather['wind']['deg'])+"°\n"
+            msg += "Clima : "+str(weather['weather'][0]['description'])+"\n"
+            await message.reply(msg)
         else:
-            await message.reply("Please reply to a message")
+            await message.reply("Por favor, informe o nome da cidade ou coordenadas geográficas.")
     except Exception as e:
         await message.reply(e)
-
-    
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
