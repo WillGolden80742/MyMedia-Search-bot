@@ -51,7 +51,7 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)
 
-@Client.on_message(filters.command('/translate'))
+@Client.on_message(filters.command('translate'))
 async def advice(bot, message):
     try:
         request = requests.get("https://api.telegram.org/bot"+BOT_TOKEN+"/getUpdates")
