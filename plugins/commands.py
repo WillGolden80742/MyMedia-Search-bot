@@ -54,7 +54,7 @@ async def advice(bot, message):
 @Client.on_message(filters.command('ptbr'))
 async def ptbr(bot, message):
     try:
-        msgToTranslate = message.text.split(' ', 1)[1]
+        msgToTranslate = message.text
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
