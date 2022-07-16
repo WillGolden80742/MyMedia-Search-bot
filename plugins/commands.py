@@ -49,29 +49,8 @@ async def advice(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
     except Exception as e:
-        await message.reply(e)
+        await message.reply(e)               
 
-#by command weather and city name or by location coordinates give the weather
-@Client.on_message(filters.command('weather'))
-async def weather(bot, message):
-    try:
-        if len(message.command) > 1:
-            city = message.command[1]
-            request = requests.get("https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+BOT_TOKEN)
-            weather = json.loads(request.content)
-            msg = "Temperatura : "+str(weather['main']['temp'])+"°C\n"
-            msg += "Temperatura máxima : "+str(weather['main']['temp_max'])+"°C\n"
-            msg += "Temperatura mínima : "+str(weather['main']['temp_min'])+"°C\n"
-            msg += "Humidade : "+str(weather['main']['humidity'])+"%\n"
-            msg += "Pressão : "+str(weather['main']['pressure'])+"hPa\n"
-            msg += "Velocidade do vento : "+str(weather['wind']['speed'])+"m/s\n"
-            msg += "Direção do vento : "+str(weather['wind']['deg'])+"°\n"
-            msg += "Clima : "+str(weather['weather'][0]['description'])+"\n"
-            await message.reply(msg)
-        else:
-            await message.reply("Por favor, informe o nome da cidade ou coordenadas geográficas.")
-    except Exception as e:
-        await message.reply(e)
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
