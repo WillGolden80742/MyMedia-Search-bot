@@ -90,7 +90,7 @@ async def gnews(bot, message):
             news['articles'].remove(msg)
             Self.updatedNews = news   
         if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url']))
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
             await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
     except Exception as e:
