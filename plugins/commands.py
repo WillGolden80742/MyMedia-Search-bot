@@ -66,8 +66,28 @@ async def ptbr(bot, message):
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")
      
+#create @Client.on_message filtred by command 'ytdown' what give me video of youtube by link contend in message replied
+@Client.on_message(filters.command('ytdown'))
+async def ytdown(bot, message):
+    try:
+        if message.reply_to_message.text:
+            link = message.reply_to_message.text
+        else:
+            link = message.reply_to_message.caption
+        if link.startswith("https://www.youtube.com/watch?v="):
+            link = link.replace("https://www.youtube.com/watch?v=", "")
+        elif link.startswith("https://youtu.be/"):
+            link = link.replace("https://youtu.be/", "")
+        else:
+            await message.reply("Link inválido")
+            return
+        request = requests.get("https://api.youtubedl.org/download/?format=best&videoid="+link)
+        await message.reply_document(request.content, filename="video.mp4")
+    except Exception as e:
+        await message.reply(e)
 
-@Client.on_message(filters.command('gnews'))
+
+@Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
