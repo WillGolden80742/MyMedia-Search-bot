@@ -87,9 +87,9 @@ async def gnews(bot, message):
 async def msg(bot, message):
     try:
         if message.message.text:
-            msg = message.message.text
+            msg = message.text
         else:
-            msg = message.message.caption
+            msg = message.caption
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)       
