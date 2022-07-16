@@ -69,9 +69,6 @@ async def advice(bot, message):
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
-     randNews(message)
-
-async def randNews(message):
     try:
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
@@ -82,7 +79,7 @@ async def randNews(message):
         else:
             await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
     except Exception as e:
-        randNews = await message.reply(e)    
+        await message.reply(e)    
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
