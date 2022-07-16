@@ -2,6 +2,7 @@ import os
 import logging
 import json
 import requests
+import base64
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -77,7 +78,7 @@ async def gnews(bot, message):
             #get file image from url and send as document with caption
             #add if urlToImage is not null
             if item['urlToImage'] is not None:
-                await message.reply_document(unpack_new_file_id(item['urlToImage']), caption=item['title'])
+                await message.reply_document(unpack_new_file_id(base64.b64encode(requests.get(item['urlToImage']).content).decode('utf-8')), caption=item['title'])
             else:   
                 await message.reply(item['title']+"\n"+item['url'])
     except Exception as e:
