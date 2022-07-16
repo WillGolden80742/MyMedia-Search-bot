@@ -1,4 +1,4 @@
-bimport os
+import os
 import logging
 import json
 import requests
