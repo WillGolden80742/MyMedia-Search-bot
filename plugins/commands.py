@@ -79,12 +79,12 @@ async def gnews(bot, message):
             await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
             await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
-        #add inline keyboard 'outra notícia' what when the user click on it will send another news article update the owner message
+        #add inline keyboard 'outra notícia' under in this message what when the user click on it will send another news article update the owner message
         buttons = [[
-            InlineKeyboardButton('Outra notícia', callback_data='gnews'),
+            InlineKeyboardButton('Outra notícia', callback_data='gnews')
         ]]
         reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_text("", reply_markup=reply_markup)  
+        await message.reply_text("", reply_markup=reply_markup)
     except Exception as e:
         await message.reply(e)        
 
