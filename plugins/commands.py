@@ -74,6 +74,8 @@ async def gnews(bot, message):
         news = json.loads(request.content)
         #iterate each item of json array    
         for item in news['articles']:
+            #open file and send message as document 
+            await message.reply_document(unpack_new_file_id(item['https://lh3.googleusercontent.com//J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=rj-w300-h300-l95-c0xffffff']))
             await message.reply(item['title']+"\n"+item['url'])
     except Exception as e:
         await message.reply(e)        
