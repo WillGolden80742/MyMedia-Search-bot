@@ -83,6 +83,27 @@ async def gnews(bot, message):
     except Exception as e:
         await message.reply(e)        
 
+# if callback_data is 'gnews' then the bot will edit the message with the new article
+@Client.on_callback_query(filters.callback_data('gnews'))
+async def gnews_callback(bot, callback_query):
+    try:
+        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
+        news = json.loads(request.content)
+        #give the a random article of the news list
+        msg = news['articles'][random.randint(0,(len(news['articles'])-1))]
+        if msg['urlToImage']:
+            await bot.edit_message_text(text="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id,
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', url=msg['url'])]]), parse_mode="HTML")
+        else:
+            await bot.edit_message_text(text="<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
+            chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id,
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', url=msg['url'])]]), parse_mode="HTML")
+    except Exception as e:
+        await bot.edit_message_text(text=e, chat_id=callback_query.message.chat.id, message_id=callback_query.message.message_id)
+        
+
+
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
     """Send basic information of channel"""
