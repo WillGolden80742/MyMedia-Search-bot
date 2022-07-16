@@ -68,18 +68,6 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)               
 
-@Client.on_message(filters.command('gnews')) 
-async def gnews(bot, message):
-    try:
-        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)
-        msg = news['articles'][random.randint(0,(len(news['articles'])-1))]   
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
-        else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
-    except Exception as e:
-        await message.reply(e)    
 
 #by command 'msg' give me the id and message same message what I sent
 @Client.on_message(filters.command('msg'))
