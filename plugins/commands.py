@@ -12,7 +12,6 @@ from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRA
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
-updatedNews = False
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
