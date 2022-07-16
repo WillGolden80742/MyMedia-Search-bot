@@ -68,20 +68,20 @@ async def advice(bot, message):
         await message.reply(e)               
 
 
-@Client.on_message(filters.command('gnews')) 
-async def gnews(bot, message):
+#when triggered the command /rand, the bot will send a random number between 1 and 100
+@Client.on_message(filters.command('rand'))
+async def rand(bot, message):
     try:
-        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)
-        #give the a random article of the news list
-        msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]]))
-        else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
+        rand = random.randint(1, 100)
+        # inline keyboard with a button "new" update to the update message with the new random number
+        buttons = [[
+            InlineKeyboardButton('New', callback_data='rand')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await message.reply(str(rand), reply_markup=reply_markup)
     except Exception as e:
-        await message.reply(e)        
+        await message.reply(e)
+
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
