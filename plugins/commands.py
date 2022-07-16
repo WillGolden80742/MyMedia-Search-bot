@@ -52,30 +52,21 @@ async def advice(bot, message):
         await message.reply(e)
 
 
-  
-#by command 'post'' to get all contend of replied message and send the channel
+#by comand 'post' to get the content of the message replied and convert it to a telegraph page and return the url
 @Client.on_message(filters.command('post'))
 async def post(bot, message):
     try:
-        #do it only command is by admin
-        if message.from_user.id in ADMINS:
-            if message.reply_to_message is not None:
-                msg = message.reply_to_message
-                if msg.media is not None:
-                    if msg.media.video is not None:
-                        await message.reply_video(msg.media.video.file_id)
-                    elif msg.media.audio is not None:
-                        await message.reply_audio(msg.media.audio.file_id)
-                    elif msg.media.photo is not None:
-                        await message.reply_photo(msg.media.photo.file_id)
-                else:
-                    await message.reply(msg.text)
-            else:
-                await message.reply("Please reply to a message")
+        if message.reply_to_message:
+            msg = message.reply_to_message.text
+            request = requests.post("https://api.telegra.ph/createPage", data={'title': msg, 'content': msg})
+            url = json.loads(request.content)['url']
+            await message.reply(url)
+        else:
+            await message.reply("Please reply to a message")
     except Exception as e:
         await message.reply(e)
 
-
+    
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
