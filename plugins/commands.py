@@ -6,7 +6,7 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
+from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID, BOT_TOKEN
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
@@ -50,6 +50,16 @@ async def advice(bot, message):
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)
+
+@Client.on_message(filters.command('/translate'))
+async def advice(bot, message):
+    try:
+        request = requests.get("https://api.telegram.org/bot"+BOT_TOKEN+"/getUpdates")
+        translate = json.loads(request.content)
+        msg = translate['result'][0]['message']['text']
+        await message.reply(msg)
+    except Exception as e:
+        await message.reply(e)        
 
 @Client.on_message(filters.command('gnews'))
 async def gnews(bot, message):
