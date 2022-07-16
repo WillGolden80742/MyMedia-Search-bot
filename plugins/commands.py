@@ -74,7 +74,7 @@ async def gnews(bot, message):
         request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content)
         #give the a random article of the news list
-        msg = news['articles'][random.randint(0, len(news['articles']))] 
+        msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
         if msg['urlToImage']:
             await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
