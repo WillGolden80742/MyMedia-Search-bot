@@ -70,20 +70,30 @@ async def advice(bot, message):
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
     try:
-        get_news(message)
+        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
+        news = json.loads(request.content)
+        msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
+        if msg['urlToImage']:
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
+        else:
+            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
     except Exception as e:
         await message.reply(e)    
 
-async def get_news(message):
-    request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-    news = json.loads(request.content)
-    msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
-    if msg['urlToImage']:
-        await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
-    else:
-        await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'],
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Nova Notícia 🔄', callback_data='gnews')]]))
+#by command 'msg' give me the id and message same message what I sent
+@Client.on_message(filters.command('msg'))
+async def msg(bot, message):
+    try:
+        if message.reply_to_message.text:
+            msg = message.text
+        else:
+            msg = message.text
+        await message.reply(msg)
+    except Exception as e:
+        await message.reply(e)       
+
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
