@@ -12,6 +12,12 @@ from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRA
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
+updatedNews = False
+
+def updateArticles():
+    request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
+    news = json.loads(request.content)
+    Self.updatedNews = news
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -70,9 +76,19 @@ async def advice(bot, message):
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
     try:
-        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)
-        msg = news['articles'][random.randint(0,(len(news['articles'])-1))]  
+        news = updatedNews
+        if news:
+            msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
+            #after select, exclude the news from the list
+            news['articles'].remove(msg)
+            Self.updatedNews = news
+        else:
+            updateArticles()
+            news = updatedNews
+            msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
+            #after select, exclude the news from the list
+            news['articles'].remove(msg)
+            Self.updatedNews = news   
         if msg['urlToImage']:
             await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
