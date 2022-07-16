@@ -11,8 +11,8 @@ from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRA
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
-#create a global variable 'articleList' to store the news array and the atribute a generical initial  value
-articleList = []
+#create a global variable 'articleList' to store the news array and the atribute a generical json initial  value
+articleList = [[]] 
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
