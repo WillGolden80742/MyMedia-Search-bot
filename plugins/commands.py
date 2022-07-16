@@ -108,23 +108,49 @@ async def total(bot, message):
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
 
-#by command /addMsg get file and caption of message and save it to database mongodb
+#by command /addMsg get message "document", "video", "audio" and his respective caption and add it to database mongoDB
 @Client.on_message(filters.command('addMsg') & filters.user(ADMINS))
-async def addMsg(bot, message):
+async def add_msg(bot, message):
     """Add message to database"""
     msg = await message.reply("Processing...⏳", quote=True)
     try:
-        file_id = message.reply_to_message.file_id
-        caption = message.reply_to_message.caption
-        if file_id:
-            file = await bot.download_file(file_id)
-            await Media.create(file_id=file_id, caption=caption)
-            await msg.edit(f'📁 Saved file: {file_id}')
+        if message.reply_to_message:
+            if message.reply_to_message.document:
+                file_id = message.reply_to_message.document.file_id
+                file_name = message.reply_to_message.document.file_name
+                file_size = message.reply_to_message.document.file_size
+                file_ext = message.reply_to_message.document.file_name.split('.')[-1]
+                file_type = 'document'
+            elif message.reply_to_message.video:
+                file_id = message.reply_to_message.video.file_id
+                file_name = message.reply_to_message.video.file_name
+                file_size = message.reply_to_message.video.file_size
+                file_ext = message.reply_to_message.video.file_name.split('.')[-1]
+                file_type = 'video'
+            elif message.reply_to_message.audio:
+                file_id = message.reply_to_message.audio.file_id
+                file_name = message.reply_to_message.audio.file_name
+                file_size = message.reply_to_message.audio.file_size
+                file_ext = message.reply_to_message.audio.file_name.split('.')[-1]
+                file_type = 'audio'
+            else:
+                await msg.edit("Error: File type not supported")
+                return
         else:
-            await msg.edit("📁 Error: No file found")
+            await msg.edit("Error: No file selected")
+            return
+        if message.text.split(' ', 1)[1]:
+            caption = message.text.split(' ', 1)[1]
+        else:
+            caption = None
+        await Media.create_one(file_id=file_id, file_name=file_name, file_size=file_size, file_ext=file_ext, file_type=file_type, caption=caption)
+        await msg
+        await message.reply("File added to database")
     except Exception as e:
-        logger.exception('Failed to add message')
+        logger.exception('Failed to add file')
         await msg.edit(f'Error: {e}')
+        
+
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
