@@ -70,7 +70,7 @@ async def advice(bot, message):
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
     gnews = await message.reply("Processing...⏳", quote=True)
-    gnews.edit(randNews(message))
+    await gnews.edit(randNews(message))
 
 async def randNews(message):
     try:
