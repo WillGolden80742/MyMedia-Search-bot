@@ -56,7 +56,10 @@ async def advice(bot, message):
     try:
         request = requests.get("https://api.telegram.org/bot"+BOT_TOKEN+"/getUpdates")
         translate = json.loads(request.content)
-        msg = translate['result'][0]['message']['text']
+        msgToTranslate = translate['result'][len(translate['result'])-2]['message']['text']
+        request = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
+        translate = json.loads(request.content)
+        msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)        
