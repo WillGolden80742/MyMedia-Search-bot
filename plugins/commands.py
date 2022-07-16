@@ -80,28 +80,6 @@ async def gnews(bot, message):
     except Exception as e:
         await message.reply(e)    
 
-#by command /randNumber the bot will generate a random number between 1 and 100 and send it to the user, in the same message has the inline keyboard with the button to generate a new number
-@Client.on_message(filters.command('randNumber'))
-async def randNumber(bot, message):
-    try:
-        randNumber = random.randint(1,100)
-        buttons = [[
-            InlineKeyboardButton('Generate a new number', callback_data='randNumber'),
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await message.reply_text(randNumber, reply_markup=reply_markup)
-    except Exception as e:
-        await message.reply(e)
-
-#if the user click on the button to generate a new number, the bot will update message with a new number 
-@Client.on_callback_query(filters.callback_query('randNumber'))
-async def randNumber(bot, callback_query):
-    try:
-        randNumber = random.randint(1,100)
-        await callback_query.message.edit_text(randNumber)
-    except Exception as e:
-        await message.reply(e)
-
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
     """Send basic information of channel"""
