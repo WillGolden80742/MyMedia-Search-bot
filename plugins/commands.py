@@ -11,6 +11,7 @@ from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRA
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
+#create a global variable 'articleList' to store the news array and the atribute a generical initial  value
 articleList = []
 
 @Client.on_message(filters.command('start'))
@@ -72,7 +73,7 @@ async def advice(bot, message):
 async def gnews(bot, message):
     try:
         #if to verify se articleList is value atribute is empty
-        if not articleList:
+        if articleList:
             request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
             news = json.loads(request.content)      
             articleList = news['articles']       
