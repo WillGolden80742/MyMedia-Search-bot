@@ -87,6 +87,11 @@
             "description": "News API ID. Get this value from https://newsapi.org",
             "value": "",
             "required": false
+        },
+        "GOOGLE_TRANSLATE_API_ID": {
+            "description": "Google Translate API ID. Get this value from https://console.cloud.google.com/apis/dashboard",
+            "value": "",
+            "required": false
         }
     },
     "addons": [],

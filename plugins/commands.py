@@ -6,7 +6,7 @@ import requests
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID
+from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
@@ -34,6 +34,16 @@ async def dolar(bot, message):
         request = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
         dolar = json.loads(request.content)
         msg = "Máxima : R$"+dolar['USDBRL']['high']+"\nMínima : R$"+dolar['USDBRL']['low']+"\nVariação : R$"+dolar['USDBRL']['varBid']+"\n"
+        await message.reply(msg)
+    except Exception as e:
+        await message.reply(e)
+
+@Client.on_message(filters.command('advice'))
+async def advice(bot, message):
+    try:
+        request = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q=cheese&target=pt")
+        translate = json.loads(request.content)
+        msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)

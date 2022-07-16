@@ -10,7 +10,7 @@ API_ID = int(environ['API_ID'])
 API_HASH = environ['API_HASH']
 BOT_TOKEN = environ['BOT_TOKEN']
 USERBOT_STRING_SESSION = environ.get('USERBOT_STRING_SESSION')
-
+GOOGLE_TRANSLATE_API_ID = environ.get('GOOGLE_TRANSLATE_API_ID')
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 300))
 USE_CAPTION_FILTER = bool(environ.get('USE_CAPTION_FILTER', False))
@@ -39,3 +39,4 @@ START_MSG = environ.get('START_MSG', default_start_msg)
 SHARE_BUTTON_TEXT = 'Checkout {username} for searching files'
 INVITE_MSG = environ.get('INVITE_MSG', 'Please join @.... to use this bot')
 NEWSAPI_ID =  environ.get('NEWSAPI_ID', '')
+
