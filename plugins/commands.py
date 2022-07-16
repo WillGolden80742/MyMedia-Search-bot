@@ -77,7 +77,7 @@ async def gnews(bot, message):
         for item in news['articles']:
             #get image of articles if exists and add title as caption and url if not exists send only title and url
             if item['urlToImage']:
-                await message.reply_photo(item['urlToImage'], caption=item['title'], url=item['url'])
+                await message.reply_photo(item['urlToImage'], caption=item['title']+"\n"+item['url'])
             else:
                 await message.reply(item['title']+"\n"+item['url'])
     except Exception as e:
