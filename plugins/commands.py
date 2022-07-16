@@ -51,6 +51,37 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)
 
+
+  
+#create @Client.on_message filtred by command 'twdown' what give me video of twitter by link contend in message replied
+@Client.on_message(filters.command('twdown'))
+async def twdown(bot, message):
+    try:
+        if message.reply_to_message:
+            if message.reply_to_message.text:
+                url = message.reply_to_message.text
+                if url.startswith("https://twitter.com/"):
+                    url = url.replace("https://twitter.com/", "")
+                    url = url.replace("/status/", "")
+                    url = "https://api.twitter.com/1.1/statuses/"+url+"/extended_entities.json"
+                    request = requests.get(url, headers={"Authorization": "Bearer "+BOT_TOKEN})
+                    data = json.loads(request.content)
+                    if data['extended_entities']['media']:
+                        for media in data['extended_entities']['media']:
+                            if media['type'] == "video":
+                                await message.reply_video(media['video_info']['variants'][0]['url'])
+                                break
+                    else:
+                        await message.reply("No video found")
+                else:
+                    await message.reply("Invalid link")
+            else:
+                await message.reply("Invalid link")
+        else:
+            await message.reply("Reply to a tweet")
+    except Exception as e:
+        await message.reply(e)    
+            
 @Client.on_message(filters.command('ptbr'))
 async def ptbr(bot, message):
     try:
@@ -65,27 +96,6 @@ async def ptbr(bot, message):
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")
-     
-#create @Client.on_message filtred by command 'ytdown' what give me video of youtube by link contend in message replied
-@Client.on_message(filters.command('ytdown'))
-async def ytdown(bot, message):
-    try:
-        if message.reply_to_message.text:
-            link = message.reply_to_message.text
-        else:
-            link = message.reply_to_message.caption
-        if link.startswith("https://www.youtube.com/watch?v="):
-            link = link.replace("https://www.youtube.com/watch?v=", "")
-        elif link.startswith("https://youtu.be/"):
-            link = link.replace("https://youtu.be/", "")
-        else:
-            await message.reply("Link inválido")
-            return
-        request = requests.get("https://api.youtubedl.org/download/?format=best&videoid="+link)
-        await message.reply_document(request.content, filename="video.mp4")
-    except Exception as e:
-        await message.reply(e)
-
 
 @Client.on_message(filters.command('gnews')) 
 async def gnews(bot, message):
