@@ -11,7 +11,7 @@ from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRA
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
-
+articleList = []
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -67,18 +67,30 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)                  
 
-@Client.on_message(filters.command('gnews')) 
+#by command /gnews gives you a random news from google 
+@Client.on_message(filters.command('gnews'))
 async def gnews(bot, message):
     try:
-        request = requests.get("https://newsapi.org/v2/top-headlines?sources=google-news-br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)
-        msg = news['articles'][random.randint(0,(len(news['articles'])-1))]   
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
+        #if to verify se articleList is empty or not
+        if len(articleList) == 0:
+            request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
+            news = json.loads(request.content)      
+            articleList = news['articles']       
         else:
-            await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'])
-    except Exception as e:  
-        await message.reply(e)   
+            news = articleList 
+            rand = random.randint(0,len(news['articles']))
+            msg = news['articles'][rand]['title']
+            await message.reply(msg)
+            #after remove the article from array of the articles
+            news['articles'].pop(rand)
+    except Exception as e:
+        await message.reply(e) 
+
+#        if msg['urlToImage']:
+#            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
+#        else:
+#           await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
+ 
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
