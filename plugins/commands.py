@@ -86,10 +86,10 @@ async def gnews(bot, message):
 @Client.on_message(filters.command('msg'))
 async def msg(bot, message):
     try:
-        if message.reply_to_message.text:
-            msg = message.text
+        if message.message.text:
+            msg = message.message.text
         else:
-            msg = message.text
+            msg = message.message.caption
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)       
