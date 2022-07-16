@@ -79,12 +79,12 @@ async def randNews(message):
         #give the a random article of the news list
         msg = news['articles'][random.randint(0,(len(news['articles'])-1))] 
         if msg['urlToImage']:
-            randNews = await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
+            randNews = message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'],
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews' )]]))
         else:
-            randNews = await message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
+            randNews = message.reply("<b>"+msg['title']+"</b>\n\n"+msg['description']+"\n\n"+msg['url'], reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Ver mais', callback_data='gnews')]]))
     except Exception as e:
-        randNews = await message.reply(e)  
+        randNews = message.reply(e)  
     return randNews    
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
