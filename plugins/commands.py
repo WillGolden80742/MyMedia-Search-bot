@@ -3,6 +3,8 @@ import logging
 import requests
 import json
 import random
+import matplotlib.pyplot as plt
+import numpy as np
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -14,14 +16,11 @@ logger = logging.getLogger(__name__)
 
 #plot a function async graph calling using matplotlib by terms of a,b,c
 async def plot_graph(a,b,c):
-    import matplotlib.pyplot as plt
-    import numpy as np
-    import math
     x = np.arange(0, 10, 0.1)
     y = a*np.sin(b*x+c)
     plt.plot(x, y)
-    plt.show()
-    return
+    return plt.show()
+    
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -127,6 +126,8 @@ async def bhask(bot, message):
                 else:
                     concavity = "down"
                 await message.reply("Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
+                #reply message photo
+                message.reply_photo(await plot_graph(a,b,c), caption="Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
             else:
                 await message.reply("Não há raiz real")                    
         except:
