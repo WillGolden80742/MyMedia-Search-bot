@@ -76,7 +76,7 @@ async def gnews(bot, message):
         if len(message.command) > 1:
             #convert the string to integer
             #add module to the integer 
-            index = int(message.command[1]) % (lengthArticleList-1)
+            index = int(message.command[1]) % (lengthArticleList)
             indexTitle=index
             index-=1
         else:
