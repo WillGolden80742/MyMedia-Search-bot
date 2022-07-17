@@ -14,7 +14,7 @@ from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 
-def funciton_name():
+async def funciton_name():
     return "arroz"
 
 @Client.on_message(filters.command('start'))
