@@ -108,38 +108,18 @@ async def bhask(bot, message):
             if b**2 - 4*a*c >= 0:
                 x = (-b + (b**2 - 4*a*c)**0.5) / (2*a)
                 y = (-b - (b**2 - 4*a*c)**0.5) / (2*a)
-                await message.reply(f'x = {x} y = {y}')
+                if a > 0:
+                    concavity = "up" 
+                else:
+                    concavity = "down"
+                await message.reply("Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
             else:
-                await message.reply("Não há raiz real")    
+                await message.reply("Não há raiz real")                    
         except:
             await message.reply("Digite o comando com os valores de a, b e c")
     else:
         await message.reply('Invalid equation')
 
-#by command /optimize what solve bhaskara equation and find  Xv and Yv
-@Client.on_message(filters.command('optimize') & filters.user(ADMINS))
-async def optimize(bot, message):
-    try:
-        if len(message.command) > 1:
-            a = float(message.command[1])
-            b = float(message.command[2])
-            c = float(message.command[3])    
-            d = (b**2)-(4*a*c)
-            if d < 0:
-                await message.reply("Não existe raiz real")
-            else:
-                d = math.sqrt(d)
-                xv = (-b+d)/(2*a)
-                yv = (-b-d)/(2*a)
-                if a > 0:
-                    concavity = "up" 
-                else:
-                    concavity = "down"
-                await message.reply("Concavity "+concavity+" :\nXv = "+str(xv)+"\nYv = "+str(yv))
-        else:
-            await message.reply("Digite o comando com os valores de a, b e c")
-    except Exception as e:
-        await message.reply(str(e))
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
