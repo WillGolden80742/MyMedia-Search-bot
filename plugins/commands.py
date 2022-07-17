@@ -64,24 +64,29 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)                  
 
-#by command /gnews gives you a random news from google 
+#by command /gnews <query>  you can get the latest news from Google
 @Client.on_message(filters.command('gnews'))
 async def gnews(bot, message):
     try:
         #if to verify se articleList is value atribute is null
         #declare articleList to global variable
         request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content)      
-        rand = random.randint(0,len(news['articles']))
-        msg = news['articles'][rand]
+        news = json.loads(request.content) 
+        index = 0
+        if len(message.command) > 1:
+            index = message.command[1]
+        else:
+            index = random.randint(0,len(news['articles']))
+        msg = news['articles'][index]
         if msg['urlToImage']:
             await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
            await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])        
-        await message.reply(msg)
     except Exception as e:
         await message.reply(e) 
- 
+
+
+    
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
