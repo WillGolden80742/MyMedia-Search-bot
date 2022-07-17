@@ -131,7 +131,11 @@ async def optimize(bot, message):
                 d = math.sqrt(d)
                 xv = (-b+d)/(2*a)
                 yv = (-b-d)/(2*a)
-                await message.reply("Xv = "+str(xv)+"\nYv = "+str(yv))
+                if a > 0:
+                    concavity = "Positive" 
+                else:
+                    concavity = "Negative"
+                await message.reply(concavity+" parable :\nXv = "+str(xv)+"\nYv = "+str(yv))
         else:
             await message.reply("Digite o comando com os valores de a, b e c")
     except Exception as e:
