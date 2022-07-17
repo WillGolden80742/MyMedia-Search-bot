@@ -1,14 +1,16 @@
 import os
 import logging
+import requests
 import json
+
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
-from utils import Media, unpack_new_file_id  
+from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 
-from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
-from utils import Media, unpack_new_file_id  
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -16,15 +18,12 @@ async def start(bot, message):
     if len(message.command) > 1 and message.command[1] == 'subscribe':
         await message.reply(INVITE_MSG)
     else:
-        try:
-            buttons = [[
-                InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
-                InlineKeyboardButton('Go Inline', switch_inline_query=''),
-            ]]
-            reply_markup = InlineKeyboardMarkup(buttons)
-            await message.reply(START_MSG, reply_markup=reply_markup)
-        except Exception as e:
-            await message.reply(e)    
+        buttons = [[
+            InlineKeyboardButton('Search Here', switch_inline_query_current_chat=''),
+            InlineKeyboardButton('Go Inline', switch_inline_query=''),
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await message.reply(START_MSG, reply_markup=reply_markup)
 
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
@@ -62,9 +61,8 @@ async def advice(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)
     except Exception as e:
-        await message.reply(e)                  
+        await message.reply(e)               
 
-#by command /gnews <query>  you can get the latest news from Google
 @Client.on_message(filters.command('gnews'))
 async def gnews(bot, message):
     try:
@@ -88,10 +86,7 @@ async def gnews(bot, message):
         else:
            await message.reply_text("Não há mensagem para mostrar no índice "+indexString)        
     except Exception as e:
-        await message.reply(e) 
-
-
-    
+        await message.reply(e)  
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
@@ -133,6 +128,7 @@ async def total(bot, message):
     except Exception as e:
         logger.exception('Failed to check total files')
         await msg.edit(f'Error: {e}')
+
 
 @Client.on_message(filters.command('logger') & filters.user(ADMINS))
 async def log_file(bot, message):
