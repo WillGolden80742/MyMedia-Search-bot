@@ -3,8 +3,6 @@ import logging
 import requests
 import json
 import random
-import matplotlib.pyplot as plt
-import numpy as np
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -16,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 #plot a function async graph calling using matplotlib by terms of a,b,c
 async def plot_graph(a,b,c):
+    import matplotlib.pyplot as plt
+    import numpy as np    
     x = np.arange(0, 10, 0.1)
     y = a*np.sin(b*x+c)
     plt.plot(x, y)
