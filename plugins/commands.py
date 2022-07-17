@@ -27,23 +27,93 @@ async def start(bot, message):
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply(START_MSG, reply_markup=reply_markup)
 
+@Client.on_message(filters.command('dolar'))
+async def dolar(bot, message):
+    try:
+        request = requests.get("https://economia.awesomeapi.com.br/json/last/USD-BRL")
+        dolar = json.loads(request.content)
+        msg = "Máxima : R$"+dolar['USDBRL']['high']+"\nMínima : R$"+dolar['USDBRL']['low']+"\nVariação : R$"+dolar['USDBRL']['varBid']+"\n"
+        await message.reply(msg)
+    except Exception as e:
+        await message.reply(e)
+
+@Client.on_message(filters.command('ptbr'))
+async def ptbr(bot, message):
+    try:
+        msgToTranslate = "Sem mensagem para traduzir"
+        if message.reply_to_message.text:
+            msgToTranslate = message.reply_to_message.text
+        else:   
+            msgToTranslate = message.reply_to_message.caption
+        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
+        translate = json.loads(requestTranslate.content)
+        msg = translate['data']['translations'][0]['translatedText']
+        await message.reply(msg)  
+    except Exception as e:
+        await message.reply("Selecione mensagem para traduzir")   
+
+
+
+@Client.on_message(filters.command('advice'))
+async def advice(bot, message):
+    try:
+        request = requests.get("https://api.adviceslip.com/advice")
+        advice = json.loads(request.content)
+        msgAdvice = advice['slip']['advice']
+        request = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgAdvice+"&target=pt")
+        translate = json.loads(request.content)
+        msg = translate['data']['translations'][0]['translatedText']
+        await message.reply(msg)
+    except Exception as e:
+        await message.reply(e)               
+
+@Client.on_message(filters.command('gnews'))
+async def gnews(bot, message):
+    try:
+        request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
+        news = json.loads(request.content) 
+        index = 0
+        lengthArticleList = len(news['articles'])
+        if len(message.command) > 1:
+            #convert the string to integer
+            #add module to the integer 
+            index = int(message.command[1]) % (lengthArticleList)
+            indexTitle=index   
+        else:
+            index = random.randint(0,lengthArticleList) % lengthArticleList
+            indexTitle=index
+        if indexTitle == 0:
+            indexTitle = 20
+        index-=1             
+        msg = news['articles'][index]
+        indexString = "\n\n("+str(indexTitle)+"/"+str(lengthArticleList)+")"
+        #if to check if is NoneType object
+        if msg['urlToImage']:
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+indexString)
+        else:
+           await message.reply_text("Não há mensagem para mostrar no índice "+indexString)        
+    except Exception as e:
+        await message.reply(e)  
+
 #by command 'bask' the bot will solve the equation of Baskara get the terms 'A', 'B' and 'C' and the bot will solve the equation
 @Client.on_message(filters.command('bask'))
 async def bask(bot, message):
     """Bask command handler"""
     if len(message.command) > 1:
         try:
-            a = float(message.command[1])
-            b = float(message.command[2])
-            c = float(message.command[3])
-            x = (-b + (b**2 - 4*a*c)**0.5) / (2*a)
-            y = (-b - (b**2 - 4*a*c)**0.5) / (2*a)
-            await message.reply(f'x = {x} y = {y}')
+            if b**2 - 4*a*c < 0:
+                a = float(message.command[1])
+                b = float(message.command[2])
+                c = float(message.command[3])
+                x = (-b + (b**2 - 4*a*c)**0.5) / (2*a)
+                y = (-b - (b**2 - 4*a*c)**0.5) / (2*a)
+                await message.reply(f'x = {x} y = {y}')
+            else:
+                await message.reply("Não há raiz real")    
         except:
             await message.reply('Invalid equation')
     else:
         await message.reply('Invalid equation')
-
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
