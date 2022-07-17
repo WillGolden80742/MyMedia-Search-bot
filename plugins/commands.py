@@ -76,7 +76,7 @@ async def gnews(bot, message):
         if len(message.command) > 1:
             #convert the string to integer
             #add module to the integer 
-            index = int(message.command[1]) % int(lengthArticleList+1)
+            index = int(message.command[1]-1) % (lengthArticleList)
         else:
             index = random.randint(0,lengthArticleList) % lengthArticleList
         msg = news['articles'][index]
