@@ -77,9 +77,10 @@ async def gnews(bot, message):
             #convert the string to integer
             #add module to the integer 
             index = int(message.command[1]) % (lengthArticleList-1)
-            indexTitle=index+1
+            indexTitle=index-1
         else:
             index = random.randint(0,lengthArticleList) % lengthArticleList
+            indexTitle=index-1
         msg = news['articles'][index]
         indexString = "\n\n("+str(indexTitle)+"/"+str(lengthArticleList)+")"
         #if to check if is NoneType object
