@@ -88,7 +88,7 @@ async def gnews(bot, message):
         else:
            await message.reply_text("Não há mensagem para mostrar no índice "+indexString)        
     except Exception as e:
-        await message.reply(e+index)  
+        await message.reply(e+str(index))  
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
