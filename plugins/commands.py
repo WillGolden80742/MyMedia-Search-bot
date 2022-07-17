@@ -97,8 +97,8 @@ async def gnews(bot, message):
         await message.reply(e)  
 
 #by command 'bask' the bot will solve the equation of Baskara get the terms 'A', 'B' and 'C' and the bot will solve the equation
-@Client.on_message(filters.command('bask'))
-async def bask(bot, message):
+@Client.on_message(filters.command('bhask'))
+async def bhask(bot, message):
     """Bask command handler"""
     if len(message.command) > 1:
         try:
@@ -112,7 +112,7 @@ async def bask(bot, message):
             else:
                 await message.reply("Não há raiz real")    
         except:
-            await message.reply('Invalid equation')
+            await message.reply("Digite o comando com os valores de a, b e c")
     else:
         await message.reply('Invalid equation')
 
