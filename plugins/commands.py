@@ -1,9 +1,10 @@
+import imp
 import os
 import logging
 import requests
 import json
 import random
-
+import math
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -114,6 +115,29 @@ async def bask(bot, message):
             await message.reply('Invalid equation')
     else:
         await message.reply('Invalid equation')
+
+#by command /optimize what solve bhaskara equation and find  Xv and Yv
+@Client.on_message(filters.command('optimize') & filters.user(ADMINS))
+async def optimize(bot, message):
+    try:
+        if len(message.command) > 1:
+            msg = message.command[1]
+            msg = msg.split(" ")
+            a = float(msg[0])
+            b = float(msg[1])
+            c = float(msg[2])
+            d = (b**2)-(4*a*c)
+            if d < 0:
+                await message.reply("Não existe raiz real")
+            else:
+                d = math.sqrt(d)
+                xv = (-b+d)/(2*a)
+                yv = (-b-d)/(2*a)
+                await message.reply("Xv = "+str(xv)+"\nYv = "+str(yv))
+        else:
+            await message.reply("Digite o comando com os valores de a, b e c")
+    except Exception as e:
+        await message.reply(str(e))
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
