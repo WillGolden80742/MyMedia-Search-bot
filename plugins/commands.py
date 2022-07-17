@@ -73,17 +73,21 @@ async def gnews(bot, message):
         request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
         news = json.loads(request.content) 
         index = 0
+        lengthArticleList = len(news['articles'])
         if len(message.command) > 1:
             #convert the string to integer
-            #add modulo to the integer 
-            index = int(message.command[1]) % len(news['articles'])
+            #add module to the integer 
+            index = int(message.command[1]) % lengthArticleList
         else:
-            index = random.randint(0,len(news['articles']))
+            index = random.randint(0,lengthArticleList)-1
         msg = news['articles'][index]
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
+        #if to check if is NoneType object
+        if msg['title'] is None:
+            await message.reply("Não foi possível encontrar notícias")
+        elif msg['urlToImage']:
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url']+"("+index+"/"+lengthArticleList+")")
         else:
-           await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])        
+           await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url']+"("+index+"/"+lengthArticleList+")")        
     except Exception as e:
         await message.reply(e) 
 
