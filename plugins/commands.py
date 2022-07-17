@@ -85,9 +85,9 @@ async def gnews(bot, message):
         if msg['title'] is None:
             await message.reply("Não foi possível encontrar notícias")
         elif msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url']+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title'])+"</b>"+"\n\n"+str(msg['description'])+"\n\n"+str(msg['url'])+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")
         else:
-           await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url']+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")        
+           await message.reply_text("<b>"+str(msg['title'])+"</b>"+"\n\n"+str(msg['description'])+"\n\n"+str(msg['url'])+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")        
     except Exception as e:
         await message.reply(e) 
 
