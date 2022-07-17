@@ -74,7 +74,8 @@ async def gnews(bot, message):
         news = json.loads(request.content) 
         index = 0
         if len(message.command) > 1:
-            index = message.command[1]
+            #convert the string to integer
+            index = int(message.command[1])
         else:
             index = random.randint(0,len(news['articles']))
         msg = news['articles'][index]
