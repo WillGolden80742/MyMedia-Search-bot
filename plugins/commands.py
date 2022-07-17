@@ -12,15 +12,6 @@ from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 
-#plot a function async graph calling using matplotlib by terms of a,b,c
-async def plot_graph(a,b,c):
-    import matplotlib.pyplot as plt
-    import numpy as np    
-    x = np.arange(0, 10, 0.1)
-    y = a*np.sin(b*x+c)
-    plt.plot(x, y)
-    return plt.show()
-    
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -117,15 +108,20 @@ async def bhask(bot, message):
         try:
             a = float(message.command[1])
             b = float(message.command[2])
-            c = float(message.command[3])            
-            if b**2 - 4*a*c >= 0:
-                x = (-b + (b**2 - 4*a*c)**0.5) / (2*a)
-                y = (-b - (b**2 - 4*a*c)**0.5) / (2*a)
+            c = float(message.command[3])    
+            delta = b**2 - 4*a*c        
+            if delta >= 0:
+                x = (-b + (delta)**0.5) / (2*a)
+                y = (-b - (delta)**0.5) / (2*a)
                 if a > 0:
                     concavity = "up" 
                 else:
                     concavity = "down"
-                await message.reply_photo(await plot_graph(a,b,c), caption="Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
+                #convert xv=-b/2a to python code
+                xv = -b/(2*a)
+                #convert yv=-Δ/4a to python code
+                yv = -delta/(4*a)
+                await message.reply("x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+", Yv="+str(yv))
             else:
                 await message.reply("Não há raiz real")                    
         except:
