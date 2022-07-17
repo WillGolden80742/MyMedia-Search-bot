@@ -63,30 +63,7 @@ async def advice(bot, message):
     except Exception as e:
         await message.reply(e)               
 
-@Client.on_message(filters.command('gnews'))
-async def gnews(bot, message):
-    try:
-        #if to verify se articleList is value atribute is null
-        #declare articleList to global variable
-        request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
-        news = json.loads(request.content) 
-        index = 0
-        lengthArticleList = len(news['articles'])
-        if len(message.command) > 1:
-            #convert the string to integer
-            #add module to the integer 
-            index = int(message.command[1]) % lengthArticleList
-        else:
-            index = random.randint(0,lengthArticleList) % lengthArticleList
-        msg = news['articles'][index]
-        indexString = "\n\n("+str(index)+"/"+str(lengthArticleList)+")"
-        #if to check if is NoneType object
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+indexString)
-        else:
-           await message.reply_text("Não há mensagem para mostrar no índice "+indexString)        
-    except Exception as e:
-        await message.reply(e)  
+
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
