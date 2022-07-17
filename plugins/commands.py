@@ -81,11 +81,12 @@ async def gnews(bot, message):
         else:
             index = random.randint(0,lengthArticleList) % lengthArticleList
         msg = news['articles'][index]
+        indexString = "\n\n("+str(index)+"/"+str(lengthArticleList)+")"
         #if to check if is NoneType object
         if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+indexString)
         else:
-           await message.reply_text("<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")        
+           await message.reply_text("Não há mensagem para mostrar no índice "+indexString)        
     except Exception as e:
         await message.reply(e) 
 
