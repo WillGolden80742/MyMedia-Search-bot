@@ -104,7 +104,7 @@ async def bask(bot, message):
             a = float(message.command[1])
             b = float(message.command[2])
             c = float(message.command[3])            
-            if b**2 - 4*a*c < 0:
+            if b**2 - 4*a*c >= 0:
                 x = (-b + (b**2 - 4*a*c)**0.5) / (2*a)
                 y = (-b - (b**2 - 4*a*c)**0.5) / (2*a)
                 await message.reply(f'x = {x} y = {y}')
