@@ -1,10 +1,8 @@
-import imp
 import os
 import logging
 import requests
 import json
 import random
-import math
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -14,8 +12,16 @@ from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 
-async def funciton_name():
-    return "arroz"
+#plot a function async graph calling using matplotlib by terms of a,b,c
+async def plot_graph(a,b,c):
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import math
+    x = np.arange(0, 10, 0.1)
+    y = a*np.sin(b*x+c)
+    plt.plot(x, y)
+    plt.show()
+    return
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
