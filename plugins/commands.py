@@ -78,6 +78,8 @@ async def gnews(bot, message):
             #add module to the integer 
             index = int(message.command[1]) % (lengthArticleList)
             indexTitle=index
+            if indexTitle == 0:
+                indexTitle = 20
             index-=1
         else:
             index = random.randint(0,lengthArticleList) % lengthArticleList
