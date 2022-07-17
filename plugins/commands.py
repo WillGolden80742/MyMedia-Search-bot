@@ -66,7 +66,6 @@ async def advice(bot, message):
 
 @Client.on_message(filters.command('gnews'))
 async def gnews(bot, message):
-    index = 0
     try:
         #if to verify se articleList is value atribute is null
         #declare articleList to global variable
@@ -77,7 +76,7 @@ async def gnews(bot, message):
         if len(message.command) > 1:
             #convert the string to integer
             #add module to the integer 
-            index = int(message.command[1]) % (lengthArticleList+1)
+            index = int(message.command[1]) % (lengthArticleList)
         else:
             index = random.randint(0,lengthArticleList) % lengthArticleList
         msg = news['articles'][index]
@@ -88,7 +87,7 @@ async def gnews(bot, message):
         else:
            await message.reply_text("Não há mensagem para mostrar no índice "+indexString)        
     except Exception as e:
-        await message.reply(e+str(index))  
+        await message.reply(e)  
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
 async def channel_info(bot, message):
