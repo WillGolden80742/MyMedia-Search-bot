@@ -1,11 +1,12 @@
+from asyncio.log import logger
 import os
 import logging
 import json
-import requests
-import random
-
-from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
+from utils import Media, unpack_new_file_id  
+
+logger = logging.getLogger(__name__)
 
 from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
 from utils import Media, unpack_new_file_id  
