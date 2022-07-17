@@ -12,7 +12,7 @@ from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 #create a global variable 'articleList' to store the news array and the atribute a null value
-articleList = None
+articleList = json.loads("")
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -73,6 +73,7 @@ async def advice(bot, message):
 async def gnews(bot, message):
     try:
         #if to verify se articleList is value atribute is null
+        #declare articleList to global variable
         if articleList is None:
             request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
             news = json.loads(request.content)      
