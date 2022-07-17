@@ -72,9 +72,8 @@ async def advice(bot, message):
 @Client.on_message(filters.command('gnews'))
 async def gnews(bot, message):
     try:
-        #if to verify se articleList is value atribute is empty
-        global articleList
-        if articleList:
+        #if to verify se articleList is value atribute is null
+        if articleList is None:
             request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
             news = json.loads(request.content)      
             articleList = news['articles']       
