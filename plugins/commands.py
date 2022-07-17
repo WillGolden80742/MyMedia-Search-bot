@@ -8,11 +8,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRANSLATE_API_ID
-from utils import Media, unpack_new_file_id
-
-logger = logging.getLogger(__name__)
-#create a global variable 'articleList' to store the news array and the atribute a null value
-articleList = json.loads("")
+from utils import Media, unpack_new_file_id  
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -74,24 +70,17 @@ async def gnews(bot, message):
     try:
         #if to verify se articleList is value atribute is null
         #declare articleList to global variable
-        if articleList is None:
-            request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
-            news = json.loads(request.content)      
-            articleList = news['articles']       
+        request = requests.get("https://newsapi.org/v2/top-headlines?country=br&apiKey="+NEWSAPI_ID)
+        news = json.loads(request.content)      
+        rand = random.randint(0,len(news['articles']))
+        msg = news['articles'][rand]
+        if msg['urlToImage']:
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
         else:
-            news = articleList 
-            rand = random.randint(0,len(news['articles']))
-            msg = news['articles'][rand]['title']
-            await message.reply(msg)
-            #after remove the article from array of the articles
-            news['articles'].pop(rand)
+           await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])        
+        await message.reply(msg)
     except Exception as e:
         await message.reply(e) 
-
-#        if msg['urlToImage']:
-#            await message.reply_photo(msg['urlToImage'], caption="<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
-#        else:
-#           await message.reply_text("<b>"+msg['title']+"</b>"+"\n\n"+msg['description']+"\n\n"+msg['url'])
  
 
 @Client.on_message(filters.command('channel') & filters.user(ADMINS))
