@@ -14,6 +14,8 @@ from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
 
+def funciton_name():
+    return "arroz"
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
@@ -53,7 +55,13 @@ async def ptbr(bot, message):
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")   
 
-
+# by comand /generic get function the funciton_name() and send it as a message
+@Client.on_message(filters.command('generic'))
+async def generic(bot, message):
+    try:
+        await message.reply(funciton_name())
+    except Exception as e:
+        await message.reply(e)
 
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
