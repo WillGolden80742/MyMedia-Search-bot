@@ -79,7 +79,7 @@ async def gnews(bot, message):
             #add module to the integer 
             index = int(message.command[1]) % lengthArticleList
         else:
-            index = random.randint(0,lengthArticleList)-1
+            index = random.randint(0,lengthArticleList) % lengthArticleList
         msg = news['articles'][index]
         #if to check if is NoneType object
         if msg['title'] is None:
