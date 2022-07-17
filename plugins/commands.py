@@ -102,9 +102,9 @@ async def bask(bot, message):
     """Bask command handler"""
     if len(message.command) > 1:
         try:
-            a = float(message.command[1])
-            b = float(message.command[2])
-            c = float(message.command[3])            
+            a = float(message.command[0])
+            b = float(message.command[1])
+            c = float(message.command[2])            
             if b**2 - 4*a*c >= 0:
                 x = (-b + (b**2 - 4*a*c)**0.5) / (2*a)
                 y = (-b - (b**2 - 4*a*c)**0.5) / (2*a)
@@ -215,3 +215,4 @@ async def delete(bot, message):
         await msg.edit('File is successfully deleted from database')
     else:
         await msg.edit('File not found in database')
+
