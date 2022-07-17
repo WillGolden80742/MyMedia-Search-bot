@@ -82,12 +82,10 @@ async def gnews(bot, message):
             index = random.randint(0,lengthArticleList) % lengthArticleList
         msg = news['articles'][index]
         #if to check if is NoneType object
-        if msg['title'] is None:
-            await message.reply("Não foi possível encontrar notícias")
-        elif msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title'])+"</b>"+"\n\n"+str(msg['description'])+"\n\n"+str(msg['url'])+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")
+        if msg['urlToImage']:
+            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")
         else:
-           await message.reply_text("<b>"+str(msg['title'])+"</b>"+"\n\n"+str(msg['description'])+"\n\n"+str(msg['url'])+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")        
+           await message.reply_text("<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")        
     except Exception as e:
         await message.reply(e) 
 
