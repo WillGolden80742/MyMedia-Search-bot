@@ -125,9 +125,7 @@ async def bhask(bot, message):
                     concavity = "up" 
                 else:
                     concavity = "down"
-                await message.reply("Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
-                #reply message photo
-                message.reply_photo(await plot_graph(a,b,c), caption="Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
+                await message.reply_photo(await plot_graph(a,b,c), caption="Concavity "+concavity+" :\nXv = "+str(x)+"\nYv = "+str(y))
             else:
                 await message.reply("Não há raiz real")                    
         except:
