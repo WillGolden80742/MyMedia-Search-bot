@@ -1,6 +1,7 @@
 import os
 import logging
 import json
+from tkinter import W
 import requests
 import random
 
@@ -82,10 +83,14 @@ async def gnews(bot, message):
             index = random.randint(0,lengthArticleList) % lengthArticleList
         msg = news['articles'][index]
         #if to check if is NoneType object
-        if msg['urlToImage']:
-            await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")
+        indexString = "\n\n("+str(index)+"/"+str(lengthArticleList)+")"
+        if msg['description'] is None:
+            if msg['urlToImage']:
+                await message.reply_photo(msg['urlToImage'], caption="<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+indexString)
+            else:
+                await message.reply_text("<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+indexString)    
         else:
-           await message.reply_text("<b>"+str(msg['title']).replace('None','')+"</b>"+"\n\n"+str(msg['description']).replace('None','')+"\n\n"+str(msg['url']).replace('None','')+"\n\n("+str(index)+"/"+str(lengthArticleList)+")")        
+            await message.reply_text("Artigo não encontrando no Google News para índice "+indexString)    
     except Exception as e:
         await message.reply(e) 
 
