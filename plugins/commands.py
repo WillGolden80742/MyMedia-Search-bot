@@ -105,7 +105,7 @@ async def bhask(bot, message):
             if delta >= 0:
                 x = (-b + (delta)**0.5) / (2*a)
                 y = (-b - (delta)**0.5) / (2*a)
-                if a > 0:
+                if a < 0:
                     concavity = "up" 
                     concPic="https://blogger.googleusercontent.com/img/a/AVvXsEjWpKOGlFtAKInSVczqgiAbT4GqOh_ruPKp-KVaMoGyuir2etel9fxhfOjW4fQex1p_nWDtURJmq5I3gr3pTbUr3mKQAgy5LqiHyFRrBqCRSEwejTuzYID-ClHTqHhp7qYwdL0YbaqQShcNxiB23pEO5qc7BTL0njfRUJpXbzqrXw5e22krAaH9Hq9tcQ"
                 else:
