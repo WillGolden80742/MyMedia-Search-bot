@@ -4,6 +4,8 @@ import requests
 import json
 import random
 
+from sympy import *
+from sympy.plotting import *
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
