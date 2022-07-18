@@ -107,13 +107,15 @@ async def bhask(bot, message):
                 y = (-b - (delta)**0.5) / (2*a)
                 if a > 0:
                     concavity = "up" 
+                    concPic="https://blogger.googleusercontent.com/img/a/AVvXsEjWpKOGlFtAKInSVczqgiAbT4GqOh_ruPKp-KVaMoGyuir2etel9fxhfOjW4fQex1p_nWDtURJmq5I3gr3pTbUr3mKQAgy5LqiHyFRrBqCRSEwejTuzYID-ClHTqHhp7qYwdL0YbaqQShcNxiB23pEO5qc7BTL0njfRUJpXbzqrXw5e22krAaH9Hq9tcQ"
                 else:
                     concavity = "down"
+                    concPic="https://blogger.googleusercontent.com/img/a/AVvXsEgMT8f64WrzWzKqL4PUkE323DerVePtBYcxCt_xfeR_TF_EiPa29oiweXmyjQT8s5giQw8kChMucuP5ZfPeGUK1xVpxgzsM02qkNKFdYEvR4KU8ngOrFJF5TUICwrWhhBD8hns1EWpyJqs4W8moVWgbgOowIZkF00G0BJo5edwVrVjn0N426cfeG6pIXQ"
                 #convert xv=-b/2a to python code
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
                 yv = -delta/(4*a)
-                await message.reply("x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv))
+                await message.reply_photo(concPic, caption="x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv))
             else:
                 await message.reply("Não há raiz real")                    
         except:
