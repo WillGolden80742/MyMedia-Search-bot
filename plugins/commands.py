@@ -4,8 +4,6 @@ import requests
 import json
 import random
 
-from sympy import *
-from sympy.plotting import *
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -13,7 +11,6 @@ from info import START_MSG, CHANNELS, ADMINS, INVITE_MSG, NEWSAPI_ID, GOOGLE_TRA
 from utils import Media, unpack_new_file_id
 
 logger = logging.getLogger(__name__)
-
 
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
