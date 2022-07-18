@@ -116,8 +116,8 @@ async def bhask(bot, message):
                 await message.reply("x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv))
             else:
                 await message.reply("Não há raiz real")                    
-        except Exception as e:
-            await message.reply("Digite o comando com os valores de a, b e c \n"+e)
+        except:
+            await message.reply("Digite o comando com os valores de a, b e c")
     else:
         await message.reply('Invalid equation')
 
