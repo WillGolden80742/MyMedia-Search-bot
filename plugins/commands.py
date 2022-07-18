@@ -13,6 +13,7 @@ from utils import Media, unpack_new_file_id
 logger = logging.getLogger(__name__)
 
 
+
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
     """Start command handler"""
@@ -121,7 +122,7 @@ async def bhask(bot, message):
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
                 yv = -delta/(4*a)
-                await message.reply("x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+", Yv="+str(yv))
+                await message.reply("x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv))
             else:
                 await message.reply("Não há raiz real")                    
         except:
