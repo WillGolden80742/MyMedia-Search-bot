@@ -25,6 +25,48 @@ async def start(bot, message):
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply(START_MSG, reply_markup=reply_markup)
 
+async def graph(a,b,c):
+    import matplotlib.pyplot as plt
+    import base64
+    import io    
+    delta = b**2-4*a*c
+    if delta >= 0:
+        Yv = []
+        Xv = []
+        XVertice=-b/2*a
+        YVertice=-(delta)/4*a
+        if XVertice>0:
+            x=-(XVertice)
+        else:
+            x=(XVertice)
+        xi = int(x*2)
+        xf = int(x*-2)
+        yi = a*xi**2+b*xi+c
+        for i in range(xi,xf+1):            
+            y = a*i**2+b*i+c
+            Yv.append(y)
+            Xv.append(i)   
+        plt.plot(Xv,Yv,color='g') 
+        plt.ylabel('Y')
+        plt.hlines(y=0, xmin=xi, xmax=xf, linewidth=1, color='b')   
+        if a > 0:
+            plt.plot([0,0],[yi,YVertice], linewidth=1, color='b')      
+            plt.title("x")
+            plt.xlabel("Xv="+str(XVertice)+", Yv="+str(YVertice))
+            plt.plot([XVertice,XVertice],[YVertice-0.25,YVertice+0.75], color='r')    
+        else:
+            plt.plot([0,0],[YVertice,y], linewidth=1, color='b')      
+            plt.title("Xv="+str(XVertice)+", Yv="+str(YVertice))
+            plt.xlabel("X") 
+            plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='r') 
+        s = io.BytesIO()
+        plt.savefig(s, format='png', bbox_inches="tight")
+        plt.close()
+        s = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
+        return ('data:image/png;base64,%s' % s)            
+    else:  
+        return None    
+
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
     try:
@@ -107,10 +149,9 @@ async def bhask(bot, message):
                 y = (-b - (delta)**0.5) / (2*a)
                 if a < 0:
                     concavity = "up" 
-                    concPic="https://blogger.googleusercontent.com/img/a/AVvXsEjWpKOGlFtAKInSVczqgiAbT4GqOh_ruPKp-KVaMoGyuir2etel9fxhfOjW4fQex1p_nWDtURJmq5I3gr3pTbUr3mKQAgy5LqiHyFRrBqCRSEwejTuzYID-ClHTqHhp7qYwdL0YbaqQShcNxiB23pEO5qc7BTL0njfRUJpXbzqrXw5e22krAaH9Hq9tcQ"
                 else:
                     concavity = "down"
-                    concPic="https://blogger.googleusercontent.com/img/a/AVvXsEgMT8f64WrzWzKqL4PUkE323DerVePtBYcxCt_xfeR_TF_EiPa29oiweXmyjQT8s5giQw8kChMucuP5ZfPeGUK1xVpxgzsM02qkNKFdYEvR4KU8ngOrFJF5TUICwrWhhBD8hns1EWpyJqs4W8moVWgbgOowIZkF00G0BJo5edwVrVjn0N426cfeG6pIXQ"
+                concPic = graph(a,b,c)  
                 #convert xv=-b/2a to python code
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
