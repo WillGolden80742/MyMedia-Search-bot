@@ -13,7 +13,6 @@ from utils import Media, unpack_new_file_id
 logger = logging.getLogger(__name__)
 
 
-
 @Client.on_message(filters.command('start'))
 async def start(bot, message):
     """Start command handler"""
