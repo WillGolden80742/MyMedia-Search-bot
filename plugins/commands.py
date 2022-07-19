@@ -152,7 +152,7 @@ async def bhask(bot, message):
                     concavity = "up" 
                 else:
                     concavity = "down"
-                concPic = graph(a,b,c)  
+                concPic = await graph(a,b,c)  
                 #convert xv=-b/2a to python code
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
