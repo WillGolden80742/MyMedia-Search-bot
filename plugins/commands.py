@@ -157,7 +157,7 @@ async def bhask(bot, message):
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
                 yv = -delta/(4*a)
-                await message.reply_photo(concPic," <p>x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv)+"</p>")
+                await message.reply(concPic+" <p>x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv)+"</p>")
             else:
                 await message.reply("<p>Não há raiz real</p>")                    
         except  Exception as e:
