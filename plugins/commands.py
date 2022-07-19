@@ -51,13 +51,13 @@ async def graph(a,b,c):
         plt.hlines(y=0, xmin=xi, xmax=xf, linewidth=1, color='b')   
         if a > 0:
             plt.plot([0,0],[yi,YVertice], linewidth=1, color='b')      
-            plt.title("x - O gráfico pode apresentar imprecisão, mas os números estão corretos.")
+            plt.title("O gráfico pode apresentar imprecisão, mas os números estão corretos.\nx")
             plt.xlabel("Xv="+str(XVertice)+", Yv="+str(YVertice))
             plt.plot([XVertice,XVertice],[YVertice-0.25,YVertice+0.75], color='r')    
         else:
             plt.plot([0,0],[YVertice,y], linewidth=1, color='b')      
             plt.title("Xv="+str(XVertice)+", Yv="+str(YVertice))
-            plt.xlabel("X - O gráfico pode apresentar imprecisão, mas os números estão corretos.") 
+            plt.xlabel("O gráfico pode apresentar imprecisão, mas os números estão corretos.\nx") 
             plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='r') 
         # get plt grafic and send it as a photo
         plt.savefig('graph.png')
