@@ -63,7 +63,7 @@ async def graph(a,b,c):
         plt.savefig(s, format='png', bbox_inches="tight")
         plt.close()
         s = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
-        return base64.b64decode("\"data:image/png;base64,"+str(s)+"\"")        
+        return base64.b64decode("<img src=\"data:image/png;base64,"+str(s)+"\" /></br>")        
     else:  
         return None    
 
@@ -156,9 +156,9 @@ async def bhask(bot, message):
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
                 yv = -delta/(4*a)
-                await message.reply_photo(concPic, caption="x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv))
+                await message.reply(concPic+" <p>x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv)+"</p>")
             else:
-                await message.reply("Não há raiz real")                    
+                await message.reply("<p>Não há raiz real</p>")                    
         except  Exception as e:
             await message.reply("Digite o comando com os valores de a, b e c "+str(e))
     else:
