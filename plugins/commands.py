@@ -47,7 +47,7 @@ async def graph(a,b,c):
             Yv.append(y)
             Xv.append(i)   
         plt.plot(Xv,Yv,color='g') 
-        plt.ylabel('Y')
+        plt.ylabel('y')
         plt.hlines(y=0, xmin=xi, xmax=xf, linewidth=1, color='b')   
         if a > 0:
             plt.plot([0,0],[yi,YVertice], linewidth=1, color='b')      
