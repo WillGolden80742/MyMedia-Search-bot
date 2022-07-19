@@ -26,6 +26,7 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 async def graph(a,b,c):
+    import numpy
     import matplotlib.pyplot as plt
     import base64
     import io    
