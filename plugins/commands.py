@@ -146,18 +146,10 @@ async def bhask(bot, message):
             c = float(message.command[3])    
             delta = b**2 - 4*a*c        
             if delta >= 0:
-                x = (-b + (delta)**0.5) / (2*a)
-                y = (-b - (delta)**0.5) / (2*a)
-                if a < 0:
-                    concavity = "up" 
-                else:
-                    concavity = "down"
+                x1 = (-b + (delta)**0.5) / (2*a)
+                x2 = (-b - (delta)**0.5) / (2*a)
                 await graph(a,b,c)  
-                #convert xv=-b/2a to python code
-                xv = -b/(2*a)
-                #convert yv=-Δ/4a to python code
-                yv = -delta/(4*a)
-                await message.reply_photo(open('graph.png', 'rb'),caption=" <p>x1 = "+str(x)+", x2 = "+str(y))
+                await message.reply_photo(open('graph.png', 'rb'),caption=" <p>x1 = "+str(x1)+", x2 = "+str(x2))
             else:
                 await message.reply("<p>Não há raiz real</p>")                    
         except  Exception as e:
