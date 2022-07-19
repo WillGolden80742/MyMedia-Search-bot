@@ -60,10 +60,9 @@ async def graph(a,b,c):
             plt.xlabel("X") 
             plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='r') 
         s = io.BytesIO()
-        plt.savefig(s, format='png', bbox_inches="tight")
-        plt.close()
-        s = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
-        return s          
+        # convert s to binary
+        plt.savefig(s, format='png')
+        return s.seek(0)          
     else:  
         return None    
 
