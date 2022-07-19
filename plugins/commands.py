@@ -64,8 +64,7 @@ async def graph(a,b,c):
         plt.close()
         with open('graph.png', 'rb') as f:
             b64 = base64.b64encode(f.read())
-            b64 = b64.decode('utf-8')
-        return b64  
+            b64 = b64.decode('utf-8') 
     else:  
         return None    
 
@@ -153,12 +152,12 @@ async def bhask(bot, message):
                     concavity = "up" 
                 else:
                     concavity = "down"
-                concPic = await graph(a,b,c)  
+                await graph(a,b,c)  
                 #convert xv=-b/2a to python code
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
                 yv = -delta/(4*a)
-                await message.reply_photo(concPic," <p>x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv)+"</p>")
+                await message.reply_photo(open('graph.png', 'rb')," <p>x = "+str(x)+", y = "+str(y)+"\nConcavity "+concavity+" : \n Xv="+str(xv)+"\n Yv="+str(yv)+"</p>")
             else:
                 await message.reply("<p>Não há raiz real</p>")                    
         except  Exception as e:
