@@ -51,13 +51,13 @@ async def graph(a,b,c):
         plt.hlines(y=0, xmin=xi, xmax=xf, linewidth=1, color='b')   
         if a > 0:
             plt.plot([0,0],[yi,YVertice], linewidth=1, color='b')      
-            plt.title("x")
+            plt.title("x - O gráfico pode apresentar imprecisão, mas os números estão corretos.")
             plt.xlabel("Xv="+str(XVertice)+", Yv="+str(YVertice))
             plt.plot([XVertice,XVertice],[YVertice-0.25,YVertice+0.75], color='r')    
         else:
             plt.plot([0,0],[YVertice,y], linewidth=1, color='b')      
             plt.title("Xv="+str(XVertice)+", Yv="+str(YVertice))
-            plt.xlabel("X") 
+            plt.xlabel("X - O gráfico pode apresentar imprecisão, mas os números estão corretos.") 
             plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='r') 
         # get plt grafic and send it as a photo
         plt.savefig('graph.png')
@@ -157,8 +157,7 @@ async def bhask(bot, message):
                 xv = -b/(2*a)
                 #convert yv=-Δ/4a to python code
                 yv = -delta/(4*a)
-                await message.reply_photo(open('graph.png', 'rb'))
-                await message.reply(" <p>x = "+str(x)+", y = "+str(y))
+                await message.reply_photo(open('graph.png', 'rb'),caption=" <p>x = "+str(x)+", y = "+str(y))
             else:
                 await message.reply("<p>Não há raiz real</p>")                    
         except  Exception as e:
