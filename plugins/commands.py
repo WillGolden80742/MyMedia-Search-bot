@@ -62,7 +62,8 @@ async def graph(a,b,c):
         s = io.BytesIO()
         plt.savefig(s, format='png', bbox_inches="tight")
         plt.close()
-        return s         
+        s = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
+        return s          
     else:  
         return None    
 
