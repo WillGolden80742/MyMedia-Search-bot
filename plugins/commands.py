@@ -59,11 +59,13 @@ async def graph(a,b,c):
             plt.title("Xv="+str(XVertice)+", Yv="+str(YVertice))
             plt.xlabel("X") 
             plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='r') 
-        s = io.BytesIO()
-        plt.savefig(s, format='png', bbox_inches="tight")
+        # get plt grafic and send it as a photo
+        plt.savefig('graph.png')
         plt.close()
-        s = base64.b64encode(s.getvalue()).decode("utf-8").replace("\n", "")
-        return s      
+        with open('graph.png', 'rb') as f:
+            b64 = base64.b64encode(f.read())
+            b64 = b64.decode('utf-8')
+        return b64  
     else:  
         return None    
 
