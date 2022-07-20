@@ -70,7 +70,7 @@ async def graph(a,b,c):
             plt.plot([XVertice,XVertice],[YVertice-0.25,YVertice+0.75], color='b')    
         else:     
             plt.title("Xv="+str(XVertice)+", Yv="+str(YVertice))
-            plt.xlabel("O gráfico pode conter aproximações, mas os números estão certos\nx")
+            plt.xlabel("x\nO gráfico pode conter aproximações, mas os números estão certos")
             plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='b') 
         plt.savefig('graph.png')
         plt.close()
