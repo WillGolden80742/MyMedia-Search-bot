@@ -28,6 +28,10 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 async def graph(a,b,c):
+    houses=await houses((a,b,c)/3)
+    a/=houses
+    b/=houses
+    c/=houses
     delta = b**2-4*a*c
     if delta >= 0:
         Xv=[]
@@ -69,8 +73,13 @@ async def graph(a,b,c):
         with open('graph.png', 'rb') as f:
             b64 = base64.b64encode(f.read())
             b64 = b64.decode('utf-8') 
+        return b64    
     else:  
         return None    
+
+async def houses(number):
+    number=int(number)
+    return (10**(len(str(number))-1))
 
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
