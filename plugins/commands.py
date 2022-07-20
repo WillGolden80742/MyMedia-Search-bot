@@ -28,8 +28,8 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 async def graph(a,b,c):
-    number=int((a+b+c)/3)
-    houses = (10**(len(str(number))-1))
+    number = str(int(a))+str(int(b))+str(int(c))
+    houses = int(10**((len(str(number))/3)-1))
     a/=houses
     b/=houses
     c/=houses
