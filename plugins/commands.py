@@ -29,7 +29,10 @@ async def start(bot, message):
 
 async def graph(a,b,c):
     number = str(int(a))+str(int(b))+str(int(c))
-    houses = int(10**((len(str(number))/3)-1))
+    n = number
+    for i in range (3):
+        n = str(n).replace('-','')
+    houses = int(10**((len(n)/3)-1))
     a/=houses
     b/=houses
     c/=houses
