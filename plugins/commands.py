@@ -38,8 +38,6 @@ async def graph(a,b,c):
         YVertice=y=a*XVertice**2+b*XVertice+c
         xi = x1
         xf = x2
-        yi=a*xi**2+b*xi+c
-        yf=a*xf**2+b*xf+c
         xi*=2
         xf*=3 
         x=xi
