@@ -28,7 +28,8 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 async def graph(a,b,c):
-    houses=await houses((a+b+c)/3)
+    number=int((a+b+c)/3)
+    houses = (10**(len(str(number))-1))
     a/=houses
     b/=houses
     c/=houses
@@ -76,10 +77,6 @@ async def graph(a,b,c):
         return b64    
     else:  
         return None    
-
-async def houses(number):
-    number=int(number)
-    return (10**(len(str(number))-1))
 
 @Client.on_message(filters.command('dolar'))
 async def dolar(bot, message):
