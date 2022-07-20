@@ -28,7 +28,7 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 async def graph(a,b,c):
-    houses=houses((a+b+c)/3)
+    houses=await houses((a+b+c)/3)
     a/=houses
     b/=houses
     c/=houses
