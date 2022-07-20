@@ -3,6 +3,8 @@ import logging
 import requests
 import json
 import random
+import matplotlib.pyplot as plt
+import base64 
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -26,40 +28,44 @@ async def start(bot, message):
         await message.reply(START_MSG, reply_markup=reply_markup)
 
 async def graph(a,b,c):
-    import matplotlib.pyplot as plt
-    import base64
-    import io    
     delta = b**2-4*a*c
     if delta >= 0:
-        Yv = []
-        Xv = []
-        XVertice=-b/2*a
-        YVertice=-(delta)/4*a
-        if XVertice>0:
-            x=-(XVertice)
+        Xv=[]
+        Yv=[]
+        x1 = (-b + (delta)**0.5) / (2*a)
+        x2 = (-b - (delta)**0.5) / (2*a) 
+        XVertice=(x1+x2)/2
+        YVertice=y=a*XVertice**2+b*XVertice+c
+        xi = x1
+        xf = x2
+        yi=a*xi**2+b*xi+c
+        yf=a*xf**2+b*xf+c
+        xi*=2
+        xf*=3 
+        x=xi
+        if xi > xf:
+            while (x>=xf):
+                Xv.append(x)
+                y=a*x**2+b*x+c
+                Yv.append(y)
+                x-=1
         else:
-            x=(XVertice)
-        xi = int(x*2)
-        xf = int(x*-2)
-        yi = a*xi**2+b*xi+c
-        for i in range(xi,xf+1):            
-            y = a*i**2+b*i+c
-            Yv.append(y)
-            Xv.append(i)   
-        plt.plot(Xv,Yv,color='g') 
-        plt.ylabel('y')
-        plt.hlines(y=0, xmin=xi, xmax=xf, linewidth=1, color='b')   
-        if a > 0:
-            plt.plot([0,0],[yi,YVertice], linewidth=1, color='b')      
-            plt.title("O gráfico pode apresentar imprecisão, mas os números estão corretos.\nx")
+            while (x<=xf):
+                Xv.append(x)
+                y=a*x**2+b*x+c
+                Yv.append(y)
+                x+=1
+        plt.plot(Xv,Yv, color='r') 
+        plt.plot([xi,xf],[0,0])
+        plt.ylabel("y")
+        if a > 0:  
             plt.xlabel("Xv="+str(XVertice)+", Yv="+str(YVertice))
-            plt.plot([XVertice,XVertice],[YVertice-0.25,YVertice+0.75], color='r')    
-        else:
-            plt.plot([0,0],[YVertice,y], linewidth=1, color='b')      
+            plt.title("x")
+            plt.plot([XVertice,XVertice],[YVertice-0.25,YVertice+0.75], color='b')    
+        else:     
             plt.title("Xv="+str(XVertice)+", Yv="+str(YVertice))
-            plt.xlabel("O gráfico pode apresentar imprecisão, mas os números estão corretos.\nx") 
-            plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='r') 
-        # get plt grafic and send it as a photo
+            plt.xlabel("x")
+            plt.plot([XVertice,XVertice],[YVertice-0.75,YVertice+0.5], color='b') 
         plt.savefig('graph.png')
         plt.close()
         with open('graph.png', 'rb') as f:
