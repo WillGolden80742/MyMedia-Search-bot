@@ -106,33 +106,48 @@ async def ptbr(bot, message):
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")   
 
+async def sumChar (char,key,op):
+    if op == "e":
+        return chr(int(ord(char))+int(ord(key)))
+    elif op == "d":
+        return chr(int(ord(char))-int(ord(key))) 
+
+async def crypt(text,key,option="e"):
+    if option == "d":
+        text=base64.b64decode(text).decode()
+    key = list(key)
+    keyPosition=0
+    keySize=len(key)
+    textCrypt=""
+    for i in list(text):
+        textCrypt+=await sumChar(i,key[keyPosition],option)
+        keyPosition+=1
+        if (keyPosition==keySize):
+            keyPosition=0             
+    if option == "e":
+        return base64.b64encode(bytes(textCrypt, 'utf-8'))
+    return textCrypt
+
 @Client.on_message(filters.command('encrypt'))
 async def encrypt(bot, message):
+    #get all command and concatenate
+    command = message.command
+    key=""
+    if len(command) > 1:
+        key = " ".join(command[1:])
+    else:
+        await message.reply("Digite a chave de criptografia")
+        return
     try:
-        if len(message.command) > 1:
-            #concatenate all commands and separe by espaces
-            key=""
-            for i in range(1,len(message.command)):
-                key+=message.command[i]
-            text = "Sem mensagem para criptografar"
-            if message.reply_to_message.text:
-                text = message.reply_to_message.text
-            else:   
-                text = message.reply_to_message.caption
-            key = list(key)
-            keyPosition=0
-            keySize=len(key)
-            textCrypt=""
-            for i in list(text):
-                textCrypt+=chr(int(ord(i))+int(ord(key[keyPosition])))
-                keyPosition+=1
-                if (keyPosition==keySize):
-                    keyPosition=0             
-            await message.reply(str(key)+"\n"+base64.b64encode(bytes(textCrypt, 'utf-8')))  
-        else: 
-            await message.reply("Digite uma mensagem para ser encriptada")    
+        text = "Sem mensagem para encriptar"
+        if message.reply_to_message.text:
+            text = message.reply_to_message.text
+        else:   
+            text = message.reply_to_message.caption
+        textCrypt = await crypt(text,key)
+        await message.reply("key :\n"+key+"\ntext :\n"+textCrypt)
     except Exception as e:
-        await message.reply("Selecione mensagem para criptografar \n"+str(e))
+        await message.reply("Selecione mensagem para encriptar"+str(e))
 
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
