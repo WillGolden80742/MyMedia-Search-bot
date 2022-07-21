@@ -144,7 +144,7 @@ async def encrypt(bot, message):
         else: 
             await message.reply("Digite uma mensagem para ser encriptada")    
     except Exception as e:
-        await message.reply("Selecione mensagem para criptografar")  
+        await message.reply("Selecione mensagem para criptografar \n"+str(e))
 
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
