@@ -115,9 +115,6 @@ async def sumChar (char,key,op):
 
 async def crypt(text,key,option="e"):
     if option == "d":
-        text=text.replace("b'","")
-        #exclude the last character
-        text=text[:-1]
         text=base64.b64decode(text).decode()
     key = list(key)
     keyPosition=0
@@ -129,7 +126,10 @@ async def crypt(text,key,option="e"):
         if (keyPosition==keySize):
             keyPosition=0             
     if option == "e":
-        return base64.b64encode(bytes(textCrypt, 'utf-8'))
+        textCrypt = base64.b64encode(bytes(textCrypt,'utf-8'))
+        textCrypt=textCrypt.replace("b'","")
+        textCrypt=textCrypt[:-1]
+        return textCrypt
     return textCrypt
 
 @Client.on_message(filters.command('encrypt'))
