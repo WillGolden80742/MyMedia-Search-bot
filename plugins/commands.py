@@ -115,6 +115,9 @@ async def sumChar (char,key,op):
 
 async def crypt(text,key,option="e"):
     if option == "d":
+        text=text.replace("b'","")
+        #exclude the last character
+        text=text[:-1]
         text=base64.b64decode(text).decode()
     key = list(key)
     keyPosition=0
