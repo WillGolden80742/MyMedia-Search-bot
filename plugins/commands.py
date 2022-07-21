@@ -106,8 +106,6 @@ async def ptbr(bot, message):
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")   
 
-
-
 @Client.on_message(filters.command('encrypt'))
 async def encrypt(bot, message):
     try:
