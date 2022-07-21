@@ -118,8 +118,17 @@ async def encrypt(bot, message):
             if message.reply_to_message.text:
                 text = message.reply_to_message.text
             else:   
-                text = message.reply_to_message.caption         
-            await message.reply(str(key)+"\n"+str(base64.b64encode(bytes(textCrypt, 'utf-8'))))  
+                text = message.reply_to_message.caption
+            key = list(key)
+            keyPosition=0
+            keySize=len(key)
+            textCrypt=""
+            for i in list(text):
+                textCrypt+=chr(int(ord(i))+int(ord(key[keyPosition])))
+                keyPosition+=1
+                if (keyPosition==keySize):
+                    keyPosition=0             
+            await message.reply(str(key)+"\n"+base64.b64encode(bytes(textCrypt, 'utf-8')))  
         else: 
             await message.reply("Digite uma mensagem para ser encriptada")    
     except Exception as e:
