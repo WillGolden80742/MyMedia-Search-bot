@@ -146,7 +146,7 @@ async def encrypt(bot, message):
         else:   
             text = message.reply_to_message.caption
         textCrypt = await crypt(text,key)
-        await message.reply("key :\n"+key+"\ntext :\n"+textCrypt)
+        await message.reply("key :\n"+str(key)+"\ntext :\n"+str(textCrypt))
     except Exception as e:
         #show all lines of error
         for line in traceback.format_exc().splitlines():
