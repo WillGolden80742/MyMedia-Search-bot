@@ -126,7 +126,7 @@ async def crypt(text,key,option="e"):
         if (keyPosition==keySize):
             keyPosition=0             
     if option == "e":
-        textCrypt = base64.b64encode(bytes(textCrypt,'utf-8'))
+        textCrypt =str(base64.b64encode(bytes(textCrypt,'utf-8')))
         textCrypt=textCrypt.replace("b'","")
         textCrypt=textCrypt[:-1]
         return textCrypt
