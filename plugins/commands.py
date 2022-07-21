@@ -134,7 +134,7 @@ async def encrypt(bot, message):
     try:
         if len(message.command) > 1:
             #concatenate all commands and separe by espaces
-            key = " ".join(message.command[1:])
+            key = " ".join(message.command)
             msgToEncrypt = "Sem mensagem para criptografar"
             if message.reply_to_message.text:
                 msgToEncrypt = message.reply_to_message.text
