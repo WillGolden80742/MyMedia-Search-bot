@@ -1,4 +1,5 @@
 import os
+import traceback
 import logging
 import requests
 import json
@@ -147,6 +148,9 @@ async def encrypt(bot, message):
         textCrypt = await crypt(text,key)
         await message.reply("key :\n"+key+"\ntext :\n"+textCrypt)
     except Exception as e:
+        #show all lines of error
+        for line in traceback.format_exc().splitlines():
+            await message.reply(line)
         await message.reply("Selecione mensagem para encriptar"+str(e))
 
 @Client.on_message(filters.command('advice'))
