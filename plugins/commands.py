@@ -151,7 +151,7 @@ async def encrypt(bot, message):
         await message.reply("Selecione mensagem para encriptar"+str(e))
 
 @Client.on_message(filters.command('decrypt'))
-async def encrypt(bot, message):
+async def decrypt(bot, message):
     #get all command and concatenate
     command = message.command
     key=""
@@ -170,7 +170,6 @@ async def encrypt(bot, message):
         await message.reply(textCrypt)
     except Exception as e:
         await message.reply("Selecione mensagem para decriptografar"+str(e))
-
 
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
