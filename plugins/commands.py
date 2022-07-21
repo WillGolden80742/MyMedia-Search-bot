@@ -107,6 +107,45 @@ async def ptbr(bot, message):
         await message.reply("Selecione mensagem para traduzir")   
 
 
+async def sumChar (char,key,op):
+    if op == "e":
+        return chr(int(ord(char))+int(ord(key)))
+    elif op == "d":
+        return chr(int(ord(char))-int(ord(key))) 
+    
+async def crypt(text,key,option="e"):
+    if option == "d":
+        text=base64.b64decode(text).decode()
+    key = list(key)
+    keyPosition=0
+    keySize=len(key)
+    textCrypt=""
+    for i in list(text):
+        textCrypt+=await sumChar(i,key[keyPosition],option)
+        keyPosition+=1
+        if (keyPosition==keySize):
+            keyPosition=0             
+    if option == "e":
+        return base64.b64encode(bytes(textCrypt, 'utf-8'))
+    return textCrypt
+
+@Client.on_message(filters.command('encrypt'))
+async def encrypt(bot, message):
+    try:
+        if len(message.command) > 1:
+            #concatenate all commands and separe by espaces
+            key = " ".join(message.command[1:])
+            msgToEncrypt = "Sem mensagem para criptografar"
+            if message.reply_to_message.text:
+                msgToEncrypt = message.reply_to_message.text
+            else:   
+                msgToEncrypt = message.reply_to_message.caption
+            await message.reply(key+"\n"+await crypt(msgToEncrypt,key))  
+        else: 
+            await message.reply("Digite uma mensagem para ser encriptada")    
+    except Exception as e:
+        await message.reply("Selecione mensagem para criptografar")  
+
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
     try:
