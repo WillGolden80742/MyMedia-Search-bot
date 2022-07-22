@@ -141,7 +141,7 @@ async def crypt(text,key,option="e"):
         keyPosition+=1
         x+=1
         if (keyPosition==keySize):
-            key = list(hashlib.sha512( str( input ).encode("utf-8") ).hexdigest()) 
+            key = list(hashlib.sha512( str( key+str(x) ).encode("utf-8") ).hexdigest()) 
             keySize=len(key)
             keyPosition=0         
     if option == "e":
