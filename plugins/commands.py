@@ -110,24 +110,17 @@ async def ptbr(bot, message):
         await message.reply("Selecione mensagem para traduzir")   
 
 async def sumChar (char,key,op,x):
-
-    keySize = len(key)
-    a = ord(key[(x+1)%keySize])
-    b = ord(key[(x+2)%keySize])
-    c = ord(key[(x+3)%keySize])
-    y = a*x**2 + b*x + c
-    key = y
     
     if op == "e":
         if x%2 == 0:
-            return chr((int(ord(char))+int(key))%256)
+            return chr((int(ord(char))+int(ord(key)))%256)
         else:
-            return chr((int(ord(char))-int(key))%256)
+            return chr((int(ord(char))-int(ord(key)))%256)
     elif op == "d":
         if x%2 == 0:
-            return chr((int(ord(char))-int(key))%256)
+            return chr((int(ord(char))-int(ord(key)))%256)
         else:
-            return chr((int(ord(char))+int(key))%256)
+            return chr((int(ord(char))+int(ord(key)))%256)
     
 async def crypt(text,key,option="e"):
     
