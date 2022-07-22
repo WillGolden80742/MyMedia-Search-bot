@@ -170,9 +170,7 @@ async def encrypt(bot, message):
         textCrypt = await crypt(text,key)
         await message.reply(textCrypt)
     except Exception as e:
-        for line in traceback.format_exc().splitlines():
-            await message.reply(line)
-        await message.reply("Selecione mensagem para encriptar"+str(e))
+        await message.reply("Selecione mensagem para encriptar")
 
 @Client.on_message(filters.command('decrypt'))
 async def decrypt(bot, message):
@@ -194,9 +192,7 @@ async def decrypt(bot, message):
         await message.reply(textCrypt)
     except Exception as e:
         #traceback to find line of error
-        for line in traceback.format_exc().splitlines():
-            await message.reply(line)
-        await message.reply("Selecione mensagem para decriptografar"+str(e))
+        await message.reply("Selecione mensagem para decriptografar (no formato Base64)")
 
 @Client.on_message(filters.command('advice'))
 async def advice(bot, message):
