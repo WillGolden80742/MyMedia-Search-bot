@@ -170,6 +170,8 @@ async def encrypt(bot, message):
         textCrypt = await crypt(text,key)
         await message.reply(textCrypt)
     except Exception as e:
+        for line in traceback.format_exc().splitlines():
+            await message.reply(line)
         await message.reply("Selecione mensagem para encriptar"+str(e))
 
 @Client.on_message(filters.command('decrypt'))
