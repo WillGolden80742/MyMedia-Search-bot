@@ -112,7 +112,7 @@ async def ptbr(bot, message):
 async def sumChar (char,key,op,x):
 
     keySize = len(key)
-    a = ord(key[(x)%keySize])
+    a = ord(key[(x+1)%keySize])
     b = ord(key[(x+2)%keySize])
     c = ord(key[(x+3)%keySize])
     chars = string.ascii_letters + string.digits + string.punctuation
