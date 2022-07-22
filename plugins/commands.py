@@ -6,6 +6,8 @@ import json
 import random
 import matplotlib.pyplot as plt
 import base64 
+import hashlib
+import string
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -107,29 +109,43 @@ async def ptbr(bot, message):
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")   
 
-async def sumChar (char,key,op):
-    if op == "e":
-        return chr(int(ord(char))+int(ord(key)))
-    elif op == "d":
-        return chr(int(ord(char))-int(ord(key))) 
+async def sumChar (char,key,op,x):
 
+    keySize = len(key)
+    a = ord(key[(x)%keySize])
+    b = ord(key[(x+2)%keySize])
+    c = ord(key[(x+3)%keySize])
+    chars = string.ascii_letters + string.digits + string.punctuation
+    chars = list(chars)
+    charsSize = len(chars)
+    y = a*x**2 + b*x + c
+    key = chars[y%charsSize]
+    
+    if op == "e":
+        return chr((int(ord(char))+int(ord(key)))%256)
+    elif op == "d":
+        return chr((int(ord(char))-int(ord(key)))%256)
+    
 async def crypt(text,key,option="e"):
+    
     if option == "d":
         text=base64.b64decode(text).decode()
+    key = hashlib.sha512( str( key+str(len(text)) ).encode("utf-8") ).hexdigest()    
     key = list(key)
     keyPosition=0
     keySize=len(key)
     textCrypt=""
+    x = 0
     for i in list(text):
-        textCrypt+=await sumChar(i,key[keyPosition],option)
+        textCrypt+=await sumChar(i,key[keyPosition],option,x)
         keyPosition+=1
+        x+=1
         if (keyPosition==keySize):
-            keyPosition=0             
+            key = list(hashlib.sha512( str( input ).encode("utf-8") ).hexdigest()) 
+            keySize=len(key)
+            keyPosition=0         
     if option == "e":
-        textCrypt =str(base64.b64encode(bytes(textCrypt,'utf-8')))
-        textCrypt=textCrypt.replace("b'","")
-        textCrypt=textCrypt[:-1]
-        return textCrypt
+        return base64.b64encode(bytes(textCrypt, 'utf-8'))
     return textCrypt
 
 @Client.on_message(filters.command('encrypt'))
