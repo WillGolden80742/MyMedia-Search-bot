@@ -139,11 +139,11 @@ async def crypt(text,key,option="e"):
     for i in list(text):
         textCrypt+=await sumChar(i,key[keyPosition],option,x)
         keyPosition+=1
-        x+=1
         if (keyPosition==keySize):
-            key = list( hashlib.sha512( str(x)+str( key ).encode("utf-8") ).hexdigest()  ) 
+            key = list( hashlib.sha512( str( "".join(key)+str(x) ).encode("utf-8") ).hexdigest()  ) 
             keySize=len(key)
-            keyPosition=0         
+            keyPosition=0     
+        x+=1        
     if option == "e":
         textCrypt = str(base64.b64encode(bytes(textCrypt,'utf-8')))
         textCrypt=textCrypt.replace("b'","")
