@@ -145,7 +145,10 @@ async def crypt(text,key,option="e"):
             keySize=len(key)
             keyPosition=0         
     if option == "e":
-        return base64.b64encode(bytes(textCrypt, 'utf-8'))
+        textCrypt = base64.b64encode(bytes(textCrypt,'utf-8'))
+        textCrypt=textCrypt.replace("b'","")
+        textCrypt=textCrypt[:-1]
+        return textCrypt
     return textCrypt
 
 @Client.on_message(filters.command('encrypt'))
