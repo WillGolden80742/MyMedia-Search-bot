@@ -115,16 +115,19 @@ async def sumChar (char,key,op,x):
     a = ord(key[(x+1)%keySize])
     b = ord(key[(x+2)%keySize])
     c = ord(key[(x+3)%keySize])
-    chars = string.ascii_letters + string.digits + string.punctuation
-    chars = list(chars)
-    charsSize = len(chars)
     y = a*x**2 + b*x + c
-    key = chars[y%charsSize]
+    key = y
     
     if op == "e":
-        return chr((int(ord(char))+int(ord(key)))%256)
+        if x%2 == 0:
+            return chr((int(ord(char))+int(key))%256)
+        else:
+            return chr((int(ord(char))-int(key))%256)
     elif op == "d":
-        return chr((int(ord(char))-int(ord(key)))%256)
+        if x%2 == 0:
+            return chr((int(ord(char))-int(key))%256)
+        else:
+            return chr((int(ord(char))+int(key))%256)
     
 async def crypt(text,key,option="e"):
     
