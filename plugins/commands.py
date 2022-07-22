@@ -191,6 +191,9 @@ async def decrypt(bot, message):
         textCrypt = await crypt(text,key,"d")
         await message.reply(textCrypt)
     except Exception as e:
+        #traceback to find line of error
+        for line in traceback.format_exc().splitlines():
+            await message.reply(line)
         await message.reply("Selecione mensagem para decriptografar"+str(e))
 
 @Client.on_message(filters.command('advice'))
