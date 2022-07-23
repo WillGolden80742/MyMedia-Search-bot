@@ -9,6 +9,7 @@ import base64
 import hashlib
 import string
 
+from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -109,8 +110,7 @@ async def ptbr(bot, message):
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")   
 
-async def sumChar (char,key,op,x):
-    
+async def sumChar (char,key,op,x): 
     if op == "e":
         if x%2 == 0:
             return chr((int(ord(char))+int(ord(key)))%256)
@@ -120,13 +120,17 @@ async def sumChar (char,key,op,x):
         if x%2 == 0:
             return chr((int(ord(char))-int(ord(key)))%256)
         else:
-            return chr((int(ord(char))+int(ord(key)))%256)
-    
+            return chr((int(ord(char))+int(ord(key)))%256)  
+
 async def crypt(text,key,option="e"):
-    
-    if option == "d":
-        text=base64.b64decode(text).decode()
-    key = hashlib.sha512( str( key+str(len(text)) ).encode("utf-8") ).hexdigest()    
+    now = datetime.now()
+    if option == "e":
+        timestamp = datetime.timestamp(now)
+    elif option == "d":
+        decoded=base64.b64decode(text).decode()
+        timestamp=decoded.split(",")[0]
+        text=decoded.replace((str(timestamp)+","),"")
+    key = hashlib.sha512( str( key+str(len(text))+str(timestamp) ).encode("utf-8") ).hexdigest()    
     key = list(key)
     keyPosition=0
     keySize=len(key)
@@ -141,7 +145,7 @@ async def crypt(text,key,option="e"):
             keyPosition=0     
         x+=1        
     if option == "e":
-        textCrypt = str(base64.b64encode(bytes(textCrypt,'utf-8')))
+        textCrypt = str(base64.b64encode(bytes(str(timestamp)+","+textCrypt,'utf-8')))
         textCrypt=textCrypt.replace("b'","")
         textCrypt=textCrypt[:-1]
         return textCrypt
