@@ -122,6 +122,23 @@ async def sumChar (char,key,op,x):
         else:
             return chr((int(ord(char))+int(ord(key)))%256)  
 
+#by command split get video and split every 30 seconds and reentry partitioned video
+@Client.on_message(filters.command('split'))
+async def split(bot, message):
+    try:
+        if message.reply_to_message.video:
+            video = message.reply_to_message.video.file_id
+            video = await bot.get_file(video)
+            video = video.file_path
+            video = unpack_new_file_id(video)
+            videos = video.split_video(30)
+            for partVideo in range(videos):
+                await message.reply_video(partVideo)
+        else:
+            await message.reply("Selecione video para dividir")
+    except Exception as e:
+        await message.reply("Selecione video para dividir")
+
 async def crypt(text,key,option="e"):
     now = datetime.now()
     if option == "e":
