@@ -128,7 +128,7 @@ async def split(bot, message):
     try:
         if message.reply_to_message.video:
             video = message.reply_to_message.video.file_id
-            video = await bot.get_file(video)
+            video = bot.get_file(video)
             video = video.file_path
             video = unpack_new_file_id(video)
             video = video.split('_')
