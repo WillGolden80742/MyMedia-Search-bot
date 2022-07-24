@@ -138,8 +138,11 @@ async def split(bot, message):
             await message.reply("Selecione um vídeo")
     except Exception as e:
         await message.reply("Selecione um vídeo\n"+str(e))
-        #show the line of error by command split 
-        message.reply(traceback.format_exc())
+        #do a for loop to show the erros line by traceback
+        for i in traceback.format_exc().splitlines():
+           await message.reply(i)
+
+
 
 async def crypt(text,key,option="e"):
     now = datetime.now()
