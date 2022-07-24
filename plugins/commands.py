@@ -122,24 +122,17 @@ async def sumChar (char,key,op,x):
         else:
             return chr((int(ord(char))+int(ord(key)))%256)  
 
-#by command split get video re-send 
+#by a command get a video and resend the same video 
 @Client.on_message(filters.command('split'))
 async def split(bot, message):
     try:
         if message.reply_to_message.video:
-            video = message.reply_to_message.video.file_id
-            video = bot.get_file(video)
-            video = unpack_new_file_id(video)
-            video = video.split('_')
-            video = video[0]
-            await message.reply(video)
+            video = message.reply_to_message.video
+            await message.reply_video(video.file_id, caption="Split")
         else:
-            await message.reply("Selecione um vídeo")
+            await message.reply("Não foi possível encontrar o vídeo")
     except Exception as e:
-        await message.reply("Selecione um vídeo\n"+str(e))
-        #do a for loop to show the erros line by traceback
-        for i in traceback.format_exc().splitlines():
-           await message.reply(i)
+        await message.reply("Não foi possível encontrar o vídeo")
 
 
 
