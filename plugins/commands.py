@@ -132,8 +132,8 @@ async def split(bot, message):
             video = video.file_path
             video = unpack_new_file_id(video)
             videos = video.split_video(30)
-            for partVideo in range(videos):
-                await message.reply_video(partVideo)
+            for partsVideo in videos:
+                await message.reply_video(partsVideo)
         else:
             await message.reply("Selecione video para dividir")
     except Exception as e:
