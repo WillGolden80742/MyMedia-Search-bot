@@ -8,7 +8,10 @@ import matplotlib.pyplot as plt
 import base64 
 import hashlib
 import string
+import io
 
+from moviepy.editor import VideoFileClip
+from time import sleep
 from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -128,7 +131,28 @@ async def split(bot, message):
     try:
         if message.reply_to_message.video:
             video = message.reply_to_message.video
-            await message.reply_video(video.file_id, caption="Split")
+            #get the vide file file path
+            full_video = await bot.download_media(video)
+            current_duration = VideoFileClip(full_video).duration
+            total_duration = current_duration
+            single_duration = 30
+            current_video = f"{current_duration}.mp4"
+
+            part=1
+
+            initialVideo = total_duration%30
+            clip = VideoFileClip(full_video).subclip(0, initialVideo)
+            current_video = "part"+str(part)+".mp4"
+            await message.reply_video(clip.to_videofile(current_video, codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac'), caption="Split")
+
+            part=int(total_duration/30)+1
+            while current_duration > single_duration:
+                clip = VideoFileClip(full_video).subclip(current_duration-single_duration, current_duration)
+                current_duration -= single_duration
+                current_video = "part"+str(part)+".mp4"
+                part-=1
+                await message.reply_video(                clip.to_videofile(current_video, codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac'), caption="Split")
+                print("-----------------###-----------------")            
         else:
             await message.reply("Não foi possível encontrar o vídeo")
     except Exception as e:
