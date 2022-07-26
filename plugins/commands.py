@@ -157,6 +157,8 @@ async def split(bot, message):
             await message.reply("Não foi possível encontrar o vídeo")
     except Exception as e:
         await message.reply("Não foi possível encontrar o vídeo")
+        for i in traceback.format_exc().splitlines():
+            await message.reply(i)
 
 
 
