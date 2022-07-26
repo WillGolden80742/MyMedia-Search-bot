@@ -125,43 +125,6 @@ async def sumChar (char,key,op,x):
         else:
             return chr((int(ord(char))+int(ord(key)))%256)  
 
-#by a command get a video and resend the same video 
-@Client.on_message(filters.command('split'))
-async def split(bot, message):
-    try:
-        if message.reply_to_message.video:
-            video = message.reply_to_message.video
-            #get the vide file file path
-            full_video = await bot.download_media(video)
-            current_duration = VideoFileClip(full_video).duration
-            total_duration = current_duration
-            single_duration = 30
-            current_video = f"{current_duration}.mp4"
-
-            part=1
-
-            initialVideo = total_duration%30
-            clip = VideoFileClip(full_video).subclip(0, initialVideo)
-            current_video = "part"+str(part)+".mp4"
-            await message.reply_video(clip.to_videofile(current_video, codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac'), caption="Split")
-
-            part=int(total_duration/30)+1
-            while current_duration > single_duration:
-                clip = VideoFileClip(full_video).subclip(current_duration-single_duration, current_duration)
-                current_duration -= single_duration
-                current_video = "part"+str(part)+".mp4"
-                part-=1
-                await message.reply_video(                clip.to_videofile(current_video, codec="libx264", temp_audiofile='temp-audio.m4a', remove_temp=True, audio_codec='aac'), caption="Split")
-                print("-----------------###-----------------")            
-        else:
-            await message.reply("Não foi possível encontrar o vídeo")
-    except Exception as e:
-        await message.reply("Não foi possível encontrar o vídeo")
-        for i in traceback.format_exc().splitlines():
-            await message.reply(i)
-
-
-
 async def crypt(text,key,option="e"):
     now = datetime.now()
     if option == "e":
