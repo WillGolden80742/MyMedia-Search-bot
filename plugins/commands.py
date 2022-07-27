@@ -105,7 +105,7 @@ async def pt(bot, message):
         if message.reply_to_message.text:
             msgToTranslate = message.reply_to_message.text
         elif len(message.command) > 1:    
-            msgToTranslate = " ".join(message.command)            
+            msgToTranslate = " ".join(message.command[1:])
         else:   
             msgToTranslate = message.reply_to_message.caption
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
@@ -122,7 +122,7 @@ async def en(bot, message):
         if message.reply_to_message.text:
             msgToTranslate = message.reply_to_message.text
         elif len(message.command) > 1:    
-            msgToTranslate = " ".join(message.command)
+            msgToTranslate = " ".join(message.command[1:])
         else:   
             msgToTranslate = message.reply_to_message.caption
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=en")
