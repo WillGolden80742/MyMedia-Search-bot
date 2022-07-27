@@ -102,12 +102,13 @@ async def dolar(bot, message):
 async def pt(bot, message):
     try:
         msgToTranslate = "Sem mensagem para traduzir"
-        if message.reply_to_message.text:
-            msgToTranslate = message.reply_to_message.text
-        elif len(message.command) > 1:    
+        if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
-        else:   
-            msgToTranslate = message.reply_to_message.caption
+        else:             
+            if message.reply_to_message.text:
+                msgToTranslate = message.reply_to_message.text
+            else:   
+                msgToTranslate = message.reply_to_message.caption
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
@@ -119,12 +120,13 @@ async def pt(bot, message):
 async def en(bot, message):
     try:
         msgToTranslate = "Without message to translate"
-        if message.reply_to_message.text:
-            msgToTranslate = message.reply_to_message.text
-        elif len(message.command) > 1:    
+        if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
-        else:   
-            msgToTranslate = message.reply_to_message.caption
+        else:     
+            if message.reply_to_message.text:
+                msgToTranslate = message.reply_to_message.text
+            else:   
+                msgToTranslate = message.reply_to_message.caption
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=en")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
