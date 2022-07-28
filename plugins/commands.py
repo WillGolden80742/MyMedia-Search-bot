@@ -115,6 +115,10 @@ async def pt(bot, message):
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Selecione mensagem para traduzir")  
+        #a for loop to show all errors and tracebacks
+        for i in range(len(e.args)):
+            print(e.args[i])
+            print(traceback.format_exc())
 
 @Client.on_message(filters.command('en'))
 async def en(bot, message):
@@ -133,9 +137,12 @@ async def en(bot, message):
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Select message to translate")   
+        for i in range(len(e.args)):
+            print(e.args[i])
+            print(traceback.format_exc())        
 
 @Client.on_message(filters.command('es'))
-async def en(bot, message):
+async def es(bot, message):
     try:
         msgToTranslate = "Sin mensaje para traducir"
         if len(message.command) > 1:    
@@ -151,6 +158,9 @@ async def en(bot, message):
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Seleccionar mensaje para traducir") 
+        for i in range(len(e.args)):
+            print(e.args[i])
+            print(traceback.format_exc())        
 
 async def sumChar (char,key,op,x): 
     if op == "e":
