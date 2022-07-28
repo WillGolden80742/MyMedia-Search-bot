@@ -109,10 +109,11 @@ async def pt(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate = msgToTranslate.replace("#","")        
+        msgToTranslate = msgToTranslate.replace("#","[hashtag] ")        
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
+        msg = msg.replace("[hashtag] ","#")         
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
@@ -130,10 +131,11 @@ async def en(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate = msgToTranslate.replace("#","")                           
+        msgToTranslate = msgToTranslate.replace("#","[hashtag] ")                         
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=en")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
+        msg = msg.replace("[hashtag] ","#")         
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
@@ -151,10 +153,11 @@ async def es(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate = msgToTranslate.replace("#","")                         
+        msgToTranslate = msgToTranslate.replace("#","[hashtag] ")                         
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=es")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
+        msg = msg.replace("[hashtag] ","#") 
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
