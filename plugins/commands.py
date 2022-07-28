@@ -135,7 +135,7 @@ async def en(bot, message):
         await message.reply("Select message to translate")   
 
 @Client.on_message(filters.command('es'))
-async def en(bot, message):
+async def es(bot, message):
     try:
         msgToTranslate = "Sin mensaje para traducir"
         if len(message.command) > 1:    
