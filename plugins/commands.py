@@ -134,6 +134,23 @@ async def en(bot, message):
     except Exception as e:
         await message.reply("Select message to translate")   
 
+@Client.on_message(filters.command('es'))
+async def en(bot, message):
+    try:
+        msgToTranslate = "Sin mensaje para traducir"
+        if len(message.command) > 1:    
+            msgToTranslate = " ".join(message.command[1:])
+        else:     
+            if message.reply_to_message.text:
+                msgToTranslate = message.reply_to_message.text
+            else:   
+                msgToTranslate = message.reply_to_message.caption
+        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=es")
+        translate = json.loads(requestTranslate.content)
+        msg = translate['data']['translations'][0]['translatedText']
+        await message.reply(msg)  
+    except Exception as e:
+        await message.reply("Seleccionar mensaje para traducir") 
 
 async def sumChar (char,key,op,x): 
     if op == "e":
