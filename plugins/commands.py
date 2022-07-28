@@ -115,10 +115,9 @@ async def pt(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Selecione mensagem para traduzir \n"+str(e))  
-        #a loop to show all the errors
-        for i in range(len(traceback.extract_tb(e.__traceback__))):
-            await message.reply(traceback.extract_tb(e.__traceback__)[i][2])
+        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+str(e)) 
+        #show error and line of error
+        traceback.print_exc()
 @Client.on_message(filters.command('en'))
 async def en(bot, message):
     try:
@@ -136,9 +135,9 @@ async def en(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Select message to translate \n"+str(e))    
-        for i in range(len(traceback.extract_tb(e.__traceback__))):
-            await message.reply(traceback.extract_tb(e.__traceback__)[i][2])            
+        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+str(e)) 
+        #show error and line of error
+        traceback.print_exc()
 
 @Client.on_message(filters.command('es'))
 async def es(bot, message):
@@ -157,9 +156,9 @@ async def es(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(e)) 
-        for i in range(len(traceback.extract_tb(e.__traceback__))):
-            await message.reply(traceback.extract_tb(e.__traceback__)[i][2])
+        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+str(e)) 
+        #show error and line of error
+        traceback.print_exc()
 
 async def sumChar (char,key,op,x): 
     if op == "e":
