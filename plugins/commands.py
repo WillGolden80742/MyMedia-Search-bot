@@ -105,10 +105,10 @@ async def pt(bot, message):
         if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
         else:             
-            if message.reply_to_message.text:
-                msgToTranslate = message.reply_to_message.text
-            else:   
+            if message.reply_to_message.caption:
                 msgToTranslate = message.reply_to_message.caption
+            else:   
+                msgToTranslate = message.reply_to_message.text
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
@@ -127,10 +127,10 @@ async def en(bot, message):
         if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
         else:     
-            if message.reply_to_message.text:
-                msgToTranslate = message.reply_to_message.text
-            else:   
+            if message.reply_to_message.caption:
                 msgToTranslate = message.reply_to_message.caption
+            else:   
+                msgToTranslate = message.reply_to_message.text
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=en")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
@@ -148,10 +148,10 @@ async def es(bot, message):
         if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
         else:     
-            if message.reply_to_message.text:
-                msgToTranslate = message.reply_to_message.text
-            else:   
+            if message.reply_to_message.caption:
                 msgToTranslate = message.reply_to_message.caption
+            else:   
+                msgToTranslate = message.reply_to_message.text
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=es")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
