@@ -114,7 +114,7 @@ async def pt(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Selecione mensagem para traduzir")  
+        await message.reply("Selecione mensagem para traduzir \n"+str(e))  
         #a for loop to show all errors and tracebacks
         for i in range(len(e.args)):
             print(e.args[i])
@@ -136,7 +136,7 @@ async def en(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Select message to translate")   
+        await message.reply("Select message to translate \n"+str(e))   
         for i in range(len(e.args)):
             print(e.args[i])
             print(traceback.format_exc())        
@@ -157,7 +157,7 @@ async def es(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir") 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(e)) 
         for i in range(len(e.args)):
             print(e.args[i])
             print(traceback.format_exc())        
