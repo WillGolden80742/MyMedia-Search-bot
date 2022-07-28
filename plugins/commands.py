@@ -116,7 +116,7 @@ async def pt(bot, message):
         msg = msg.replace("[hashtag] ","#")         
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(e)) 
         #show error and line of error
         traceback.print_exc()
         
@@ -138,7 +138,7 @@ async def en(bot, message):
         msg = msg.replace("[hashtag] ","#")         
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(e)) 
         #show error and line of error
         traceback.print_exc()
 
@@ -160,7 +160,7 @@ async def es(bot, message):
         msg = msg.replace("[hashtag] ","#") 
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(e)) 
         #show error and line of error
         traceback.print_exc()
 
