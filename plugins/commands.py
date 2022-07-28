@@ -109,7 +109,7 @@ async def pt(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate.replace("#","")        
+        msgToTranslate.replace("\#","")        
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
