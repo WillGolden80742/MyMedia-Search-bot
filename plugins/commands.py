@@ -115,8 +115,10 @@ async def pt(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Selecione mensagem para traduzir")
-
+        await message.reply("Selecione mensagem para traduzir \n"+str(e))  
+        #a loop to show all the errors
+        for i in range(len(traceback.extract_tb(e.__traceback__))):
+            await message.reply(traceback.extract_tb(e.__traceback__)[i][2])
 @Client.on_message(filters.command('en'))
 async def en(bot, message):
     try:
@@ -128,13 +130,15 @@ async def en(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate.replace("#","")        
+        msgToTranslate.replace("#","")                      
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=en")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Select message to translate")             
+        await message.reply("Select message to translate \n"+str(e))    
+        for i in range(len(traceback.extract_tb(e.__traceback__))):
+            await message.reply(traceback.extract_tb(e.__traceback__)[i][2])            
 
 @Client.on_message(filters.command('es'))
 async def es(bot, message):
@@ -147,13 +151,15 @@ async def es(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate.replace("#","")       
+        msgToTranslate.replace("#","")                      
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=es")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir")
+        await message.reply("Seleccionar mensaje para traducir \n"+str(e)) 
+        for i in range(len(traceback.extract_tb(e.__traceback__))):
+            await message.reply(traceback.extract_tb(e.__traceback__)[i][2])
 
 async def sumChar (char,key,op,x): 
     if op == "e":
