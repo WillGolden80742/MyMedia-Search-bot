@@ -109,15 +109,16 @@ async def pt(bot, message):
                 msgToTranslate = message.reply_to_message.caption
             else:   
                 msgToTranslate = message.reply_to_message.text
-        msgToTranslate.replace("\#","")        
+        msgToTranslate.replace("#","")        
         requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+str(e)) 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
         #show error and line of error
         traceback.print_exc()
+        
 @Client.on_message(filters.command('en'))
 async def en(bot, message):
     try:
@@ -135,7 +136,7 @@ async def en(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+str(e)) 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
         #show error and line of error
         traceback.print_exc()
 
@@ -156,7 +157,7 @@ async def es(bot, message):
         msg = translate['data']['translations'][0]['translatedText']
         await message.reply(msg)  
     except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+str(e)) 
+        await message.reply("Seleccionar mensaje para traducir \n"+str(translate)+"\n"+msgToTranslate+"\n"+"\n"+str(e)) 
         #show error and line of error
         traceback.print_exc()
 
