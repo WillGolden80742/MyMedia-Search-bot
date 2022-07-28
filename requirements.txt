@@ -9,4 +9,3 @@ requests-oauthlib==1.0.0
 numpy
 matplotlib
 moviepy
-urllib
