@@ -142,7 +142,7 @@ async def get_yt_url(url):
         url = "youtube.com/"+str(url.split("youtube.com/")[1])
     elif contains(url,"youtu.be"):
         url = "youtu.be/"+str(url.split("youtu.be/")[1])
-    
+    return url
 async def sumChar (char,key,op,x): 
     if op == "e":
         if x%2 == 0:
