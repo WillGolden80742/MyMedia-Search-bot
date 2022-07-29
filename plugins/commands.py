@@ -127,12 +127,12 @@ async def translate(bot, message):
 @Client.on_message(filters.command("yDown"))
 async def ytDown(bot, message):
     try:
+        if len(message.command) > 1:
+            url = " ".join(message.command[1:])
         if message.reply_to_message.text:
             url = message.reply_to_message.text
         elif message.reply_to_message.caption:
             url = message.reply_to_message.caption
-        elif len(message.command) > 1:
-            url = " ".join(message.command[1:])
         else:
             await message.reply("Select a message with a url")
         urlY1 = "youtube.com/"
