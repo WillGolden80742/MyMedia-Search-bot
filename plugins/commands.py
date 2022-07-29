@@ -1,3 +1,4 @@
+from operator import contains
 import os
 import traceback
 import logging
@@ -132,19 +133,15 @@ async def ytDown(bot, message):
             url = message.reply_to_message.caption
         else:
             await message.reply("Select a message with a url")
-        await message.reply("https://pt.savefrom.net/155/#url="+str(await get_url(url)) )
+        await message.reply("https://pt.savefrom.net/155/#url="+str(await get_url(url)))
     except Exception as e:
             await message.reply("Select a message with a url \n"+e)         
 
-async def get_url(message):
-    if message.reply_to_message:
-        if message.reply_to_message.text:
-            if re.search("(http|https)://", message.reply_to_message.text):
-                return message.reply_to_message.text
-    if message.text:
-        if re.search("(http|https)://", message.text):
-            return message.text
-    return None
+async def get_yt_url(url):
+    if contains(url,"youtube.com"):
+        return "youtube.com/"+str(url.split("youtube.com/")[1].split(" ")[0])
+    elif contains(url,"youtu.be"):
+        return "youtu.be/"+str(url.split("youtu.be/")[1].split(" ")[0])
 
 async def sumChar (char,key,op,x): 
     if op == "e":
