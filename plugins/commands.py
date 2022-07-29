@@ -133,7 +133,7 @@ async def ytDown(bot, message):
             url = message.reply_to_message.caption
         else:
             await message.reply("Select a message with a url")
-        await message.reply("https://pt.savefrom.net/155/#url="+str(await get_url(url)))
+        await message.reply("https://pt.savefrom.net/155/#url="+str(await get_yt_url(url)))
     except Exception as e:
             await message.reply("Select a message with a url \n"+e)         
 
