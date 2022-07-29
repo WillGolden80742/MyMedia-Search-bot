@@ -131,6 +131,8 @@ async def ytDown(bot, message):
             url = message.reply_to_message.text
         elif message.reply_to_message.caption:
             url = message.reply_to_message.caption
+        elif len(message.command) > 1:
+            url = " ".join(message.command[1:])
         else:
             await message.reply("Select a message with a url")
         urlY1 = "youtube.com/"
