@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import base64 
 import hashlib
 import urllib.parse
+import re
 
 from datetime import datetime
 from pyrogram import Client, filters
@@ -120,6 +121,30 @@ async def translate(bot, message):
         await message.reply(await translateApi("Select message to translate", message.command[0]))
         #show error and line of error
         traceback.print_exc()
+
+#get a message with contains a url and get this url
+@Client.on_message(filters.command("ytDown"))
+async def ytDown(bot, message):
+    try:
+        if message.reply_to_message.text:
+            url = message.reply_to_message.text
+        elif message.reply_to_message.caption:
+            url = message.reply_to_message.caption
+        else:
+            await message.reply("Select a message with a url")
+        await message.reply("https://pt.savefrom.net/155/#url="+str(await get_url(url)) )
+    except Exception as e:
+            await message.reply("Select a message with a url \n"+e)         
+
+async def get_url(message):
+    if message.reply_to_message:
+        if message.reply_to_message.text:
+            if re.search("(http|https)://", message.reply_to_message.text):
+                return message.reply_to_message.text
+    if message.text:
+        if re.search("(http|https)://", message.text):
+            return message.text
+    return None
 
 async def sumChar (char,key,op,x): 
     if op == "e":
