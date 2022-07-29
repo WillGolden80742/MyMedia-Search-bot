@@ -95,6 +95,11 @@ async def dolar(bot, message):
     except Exception as e:
         await message.reply(e)
 
+#get @Client.on_message()
+@Client.on_message()
+async def any(bot, message):
+    await message.reply(message.command[0])    
+
 @Client.on_message(filters.command('pt'))
 async def pt(bot, message):
     try:
