@@ -95,7 +95,7 @@ async def dolar(bot, message):
     except Exception as e:
         await message.reply(e)
         
-async def translate(text, target_language):
+async def translateApi(text, target_language):
     msgToTranslate = urllib.parse.quote(text)      
     requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target="+str(target_language))
     translate = json.loads(requestTranslate.content)
@@ -103,9 +103,9 @@ async def translate(text, target_language):
     return translate
 
 @Client.on_message(filters.command(['en','es','pt']))
-async def en(bot, message):
+async def translate(bot, message):
     try:
-        msgToTranslate = await translate("Without message to translate", message.command[0])
+        msgToTranslate = await translateApi("Without message to translate", message.command[0])
         if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
         else:     
@@ -114,10 +114,10 @@ async def en(bot, message):
             elif message.reply_to_message.text:   
                 msgToTranslate = message.reply_to_message.text 
             else:
-                await message.reply(await translate("Select message to translate", message.command[0]))                                
-        await message.reply(await translate(msgToTranslate, message.command[0]))  
+                await message.reply(await translateApi("Select message to translate", message.command[0]))                                
+        await message.reply(await translateApi(msgToTranslate, message.command[0]))  
     except Exception as e:
-        await message.reply(await translate("Select message to translate", message.command[0]))
+        await message.reply(await translateApi("Select message to translate", message.command[0]))
         #show error and line of error
         traceback.print_exc()
 
