@@ -95,24 +95,29 @@ async def dolar(bot, message):
     except Exception as e:
         await message.reply(e)
         
+async def translate(text, target_language):
+    msgToTranslate = urllib.parse.quote(text)      
+    requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target="+str(target_language))
+    translate = json.loads(requestTranslate.content)
+    translate = translate['data']['translations'][0]['translatedText']       
+    return translate
+
 @Client.on_message(filters.command(['en','es','pt']))
 async def en(bot, message):
     try:
-        msgToTranslate = "Without message to translate"
+        msgToTranslate = await translate("Without message to translate", message.command[0])
         if len(message.command) > 1:    
             msgToTranslate = " ".join(message.command[1:])
         else:     
             if message.reply_to_message.caption:
                 msgToTranslate = message.reply_to_message.caption
-            else:   
-                msgToTranslate = message.reply_to_message.text
-        msgToTranslate = urllib.parse.quote(msgToTranslate)                        
-        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target="+str(message.command[0]))
-        translate = json.loads(requestTranslate.content)
-        msg = translate['data']['translations'][0]['translatedText']        
-        await message.reply(msg)  
+            elif message.reply_to_message.text:   
+                msgToTranslate = message.reply_to_message.text 
+            else:
+                await message.reply(await translate("Select message to translate", message.command[0]))                                
+        await message.reply(await translate(msgToTranslate, message.command[0]))  
     except Exception as e:
-        await message.reply("Select message to translate") 
+        await message.reply(await translate("Select message to translate", message.command[0]))
         #show error and line of error
         traceback.print_exc()
 
