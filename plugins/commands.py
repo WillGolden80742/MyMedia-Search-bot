@@ -94,32 +94,6 @@ async def dolar(bot, message):
         await message.reply(msg)
     except Exception as e:
         await message.reply(e)
-
-#get @Client.on_message()
-@Client.on_message(filters.command(''))
-async def any(bot, message):
-    await message.reply(message.command[0])    
-
-@Client.on_message(filters.command('pt'))
-async def pt(bot, message):
-    try:
-        msgToTranslate = "Sem mensagem para traduzir"
-        if len(message.command) > 1:    
-            msgToTranslate = " ".join(message.command[1:])
-        else:             
-            if message.reply_to_message.caption:
-                msgToTranslate = message.reply_to_message.caption
-            else:   
-                msgToTranslate = message.reply_to_message.text
-        msgToTranslate = urllib.parse.quote(msgToTranslate)       
-        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=pt")
-        translate = json.loads(requestTranslate.content)
-        msg = translate['data']['translations'][0]['translatedText']     
-        await message.reply(msg)  
-    except Exception as e:
-        await message.reply("Selecione mensagem para traduzir") 
-        #show error and line of error
-        traceback.print_exc()
         
 @Client.on_message(filters.command(['en','es','pt']))
 async def en(bot, message):
