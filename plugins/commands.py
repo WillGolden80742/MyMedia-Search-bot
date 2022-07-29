@@ -8,11 +8,7 @@ import matplotlib.pyplot as plt
 import base64 
 import hashlib
 import urllib.parse
-import string
-import io
 
-from moviepy.editor import VideoFileClip
-from time import sleep
 from datetime import datetime
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
