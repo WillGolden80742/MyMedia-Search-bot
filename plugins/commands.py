@@ -96,7 +96,7 @@ async def dolar(bot, message):
         await message.reply(e)
 
 #get @Client.on_message()
-@Client.on_message()
+@Client.on_message(filters.command(''))
 async def any(bot, message):
     await message.reply(message.command[0])    
 
