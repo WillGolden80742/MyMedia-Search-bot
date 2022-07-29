@@ -139,10 +139,10 @@ async def ytDown(bot, message):
 
 async def get_yt_url(url):
     if contains(url,"youtube.com"):
-        return "youtube.com/"+str(url.split("youtube.com/")[1].split(" ")[0])
+        url = "youtube.com/"+str(url.split("youtube.com/")[1])
     elif contains(url,"youtu.be"):
-        return "youtu.be/"+str(url.split("youtu.be/")[1].split(" ")[0])
-
+        url = "youtu.be/"+str(url.split("youtu.be/")[1])
+    
 async def sumChar (char,key,op,x): 
     if op == "e":
         if x%2 == 0:
