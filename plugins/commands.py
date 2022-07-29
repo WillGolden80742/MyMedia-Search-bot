@@ -133,16 +133,19 @@ async def ytDown(bot, message):
             url = message.reply_to_message.caption
         else:
             await message.reply("Select a message with a url")
-        await message.reply("https://pt.savefrom.net/155/#url="+str(await get_yt_url(url)))
+        urlY1 = "youtube.com/"
+        urlY2 = "youtu.be/"   
+        if contains(url,urlY1) or contains(url,urlY2):
+            if contains(url,urlY1):
+                url = urlY1+str(url.split(urlY1)[1]).split(" ")[0]
+            elif contains(url,urlY2):
+                url = urlY2+str(url.split(urlY2)[1]).split(" ")[0]              
+            await message.reply("https://pt.savefrom.net/155/#url="+str(url))
+        else: 
+            await message.reply("Select a message with a url from youtube")    
     except Exception as e:
-            await message.reply("Select a message with a url \n"+e)         
-
-async def get_yt_url(url):
-    if contains(url,"youtube.com"):
-        url = "youtube.com/"+str(url.split("youtube.com/")[1])
-    elif contains(url,"youtu.be"):
-        url = "youtu.be/"+str(url.split("youtu.be/")[1])
-    return url
+            await message.reply("Select a message with a url from youtube \n"+e)     
+                
 async def sumChar (char,key,op,x): 
     if op == "e":
         if x%2 == 0:
