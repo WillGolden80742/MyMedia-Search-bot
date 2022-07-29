@@ -114,9 +114,7 @@ async def translate(bot, message):
             elif message.reply_to_message.text:   
                 msgToTranslate = message.reply_to_message.text 
             else:
-                await message.reply(await translateApi("Select message to translate", message.command[0]))  
-        #delete all messages in the chat
-        await message.delete()                              
+                await message.reply(await translateApi("Select message to translate", message.command[0]))                           
         await message.reply(await translateApi(msgToTranslate, message.command[0]))  
     except Exception as e:
         await message.reply(await translateApi("Select message to translate", message.command[0]))
