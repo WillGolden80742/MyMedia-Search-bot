@@ -121,7 +121,7 @@ async def pt(bot, message):
         #show error and line of error
         traceback.print_exc()
         
-@Client.on_message(filters.command('en'))
+@Client.on_message(filters.command(['en','es','pt']))
 async def en(bot, message):
     try:
         msgToTranslate = "Without message to translate"
@@ -133,33 +133,12 @@ async def en(bot, message):
             else:   
                 msgToTranslate = message.reply_to_message.text
         msgToTranslate = urllib.parse.quote(msgToTranslate)                        
-        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=en")
+        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target="+str(message.command[0]))
         translate = json.loads(requestTranslate.content)
         msg = translate['data']['translations'][0]['translatedText']        
         await message.reply(msg)  
     except Exception as e:
         await message.reply("Select message to translate") 
-        #show error and line of error
-        traceback.print_exc()
-
-@Client.on_message(filters.command('es'))
-async def es(bot, message):
-    try:
-        msgToTranslate = "Sin mensaje para traducir"
-        if len(message.command) > 1:    
-            msgToTranslate = " ".join(message.command[1:])
-        else:     
-            if message.reply_to_message.caption:
-                msgToTranslate = message.reply_to_message.caption
-            else:   
-                msgToTranslate = message.reply_to_message.text
-        msgToTranslate = urllib.parse.quote(msgToTranslate)                         
-        requestTranslate = requests.get("https://translation.googleapis.com/language/translate/v2?key="+GOOGLE_TRANSLATE_API_ID+"&q="+msgToTranslate+"&target=es")
-        translate = json.loads(requestTranslate.content)
-        msg = translate['data']['translations'][0]['translatedText']
-        await message.reply(msg)  
-    except Exception as e:
-        await message.reply("Seleccionar mensaje para traducir") 
         #show error and line of error
         traceback.print_exc()
 
