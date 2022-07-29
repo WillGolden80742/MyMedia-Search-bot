@@ -142,7 +142,7 @@ async def ytDown(bot, message):
                 url = urlY1+str(url.split(urlY1)[1]).split(" ")[0]
             elif contains(url,urlY2):
                 url = urlY2+str(url.split(urlY2)[1]).split(" ")[0]              
-            await message.reply("https://pt.savefrom.net/155/#url="+str(url))
+            await message.reply("https://pt.savefrom.net/#url="+str(url))
         else: 
             await message.reply("Select a message with a url from youtube")    
     except Exception as e:
