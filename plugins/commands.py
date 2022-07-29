@@ -124,7 +124,7 @@ async def translate(bot, message):
         traceback.print_exc()
 
 #get a message with contains a url and get this url
-@Client.on_message(filters.command("ytDown"))
+@Client.on_message(filters.command("yDown"))
 async def ytDown(bot, message):
     try:
         if message.reply_to_message.text:
@@ -145,7 +145,7 @@ async def ytDown(bot, message):
             await message.reply("Select a message with a url from youtube")    
     except Exception as e:
             await message.reply("Select a message with a url from youtube \n"+e)     
-                
+
 async def sumChar (char,key,op,x): 
     if op == "e":
         if x%2 == 0:
