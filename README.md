@@ -61,9 +61,3 @@ This project is a Telegram bot built with the Pyrogram library that provides var
 
 - [Mahesh0253](https://github.com/Mahesh0253) for the original code.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-```
-
-Make sure to replace `your_bot_script.py` and `LICENSE.md` with the actual names of your bot script and license file, if applicable. You can also include additional sections or information based on your project's requirements.
