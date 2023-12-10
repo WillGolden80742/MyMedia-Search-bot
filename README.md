@@ -1,4 +1,5 @@
 # [Media Search bot](https://github.com/Mahesh0253/Media-Search-bot)
+This project is a Telegram bot built with the Pyrogram library that provides various functionalities related to media, translation, and more. The bot is based on the original code from [Mahesh0253/Media-Search-bot](https://github.com/Mahesh0253/Media-Search-bot) and has been extended and modified.
 
 * Index channel or group files for inline search.
 * When you post file on telegram channel or group this bot will save that file in database, so you can search easily in inline mode.
@@ -7,10 +8,6 @@
 ## Installation
 
 ### Watch this video to create bot - https://youtu.be/dsuTn4qV2GA
-
-markdown
-
-This project is a Telegram bot built with the Pyrogram library that provides various functionalities related to media, translation, and more. The bot is based on the original code from [Mahesh0253/Media-Search-bot](https://github.com/Mahesh0253/Media-Search-bot) and has been extended and modified.
 
 ## Features
 
