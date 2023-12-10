@@ -8,7 +8,7 @@
 
 ### Watch this video to create bot - https://youtu.be/dsuTn4qV2GA
 
-```markdown
+markdown
 
 This project is a Telegram bot built with the Pyrogram library that provides various functionalities related to media, translation, and more. The bot is based on the original code from [Mahesh0253/Media-Search-bot](https://github.com/Mahesh0253/Media-Search-bot) and has been extended and modified.
 
